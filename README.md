@@ -1,1 +1,3 @@
-This is a management App project!
+# managementAppProject
+  
+  This is my new project!
