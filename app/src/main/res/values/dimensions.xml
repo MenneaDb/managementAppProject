@@ -1,25 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Splash Activity -->
     <dimen name="text_size_splash_activity">65sp</dimen>
 
+    <!-- Intro Activity -->
     <dimen name="intro_title_text_marginTop">55sp</dimen>
     <dimen name="intro_title_text_size">45sp</dimen>
     <dimen name="intro_image_marginTop">30sp</dimen>
-
-    <dimen name="lets_get_started_text_marginTop">30sp</dimen>
-    <dimen name="lets_get_started_text_size">35sp</dimen>
 
     <dimen name="intro_text_marginStartEnd">20sp</dimen>
     <dimen name="intro_text_marginTop">30sp</dimen>
     <dimen name="intro_line_spacing_extra">6sp</dimen>
     <dimen name="intro_text_size">17sp</dimen>
 
+    <dimen name="lets_get_started_text_marginTop">30sp</dimen>
+    <dimen name="lets_get_started_text_size">35sp</dimen>
+
     <dimen name="btn_marginStartEnd">10sp</dimen>
-    <dimen name="btn_signIn_marginTop">35sp</dimen>
+    <dimen name="btn_Intro_signIn_marginTop">35sp</dimen>
     <dimen name="btn_paddingTopBottom">5sp</dimen>
     <dimen name="btn_textSize">25sp</dimen>
-    <dimen name="btn_signUp_marginTop">10sp</dimen>
+    <dimen name="btn_Intro_signUp_marginTop">10sp</dimen>
 
+    <!-- Sign Up Activity -->
+    <dimen name="btn_signUp_MarginTop">30dp</dimen>
+    <dimen name="toolbar_signUp_title_txt_size">18sp</dimen>
+    <dimen name="auth_signUp_screen_content_marginTop">40dp</dimen>
+    <dimen name="auth_signUp_description_txt_size">16sp</dimen>
+    <dimen name="auth_signUp_screen_marginStartEnd">25dp</dimen>
+    <dimen name="auth_signUp_screen_cardView_marginTop">60dp</dimen>
+    <dimen name="cardView_signUp_elevation">10dp</dimen>
+    <dimen name="cardView_signUp_cornerRadius">10dp</dimen>
+    <dimen name="cardView_signUp_layout_content_padding">16dp</dimen>
+    <dimen name="auth_signUp_screen_til_marginStartEnd">16dp</dimen>
+    <dimen name="et_signUp_txt_size">16sp</dimen>
+    <dimen name="auth_signUp_screen_til_marginTop">20dp</dimen>
 
 </resources>

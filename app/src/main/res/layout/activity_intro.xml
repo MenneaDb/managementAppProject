@@ -47,36 +47,36 @@
         android:textSize="@dimen/intro_text_size"/>
 
     <Button
-        android:id="@+id/btn_sign_in"
+        android:id="@+id/btn_Intro_signIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="@dimen/btn_marginStartEnd"
-        android:layout_marginTop="@dimen/btn_signIn_marginTop"
+        android:layout_marginTop="@dimen/btn_Intro_signIn_marginTop"
         android:layout_marginEnd="@dimen/btn_marginStartEnd"
         android:background="@drawable/shape_button_rounded"
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center"
         android:paddingTop="@dimen/btn_paddingTopBottom"
         android:paddingBottom="@dimen/btn_paddingTopBottom"
-        android:text="@string/sign_in"
+        android:text="@string/signIn"
         android:textColor="@color/white"
         android:textSize="@dimen/btn_textSize" />
 
     <Button
-        android:id="@+id/btn_sign_up"
+        android:id="@+id/btn_Intro_signUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="@dimen/btn_marginStartEnd"
-        android:layout_marginTop="@dimen/btn_signUp_marginTop"
+        android:layout_marginTop="@dimen/btn_Intro_signUp_marginTop"
         android:layout_marginEnd="@dimen/btn_marginStartEnd"
         android:background="@drawable/white_shape_button_rounded"
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center"
         android:paddingTop="@dimen/btn_paddingTopBottom"
         android:paddingBottom="@dimen/btn_paddingTopBottom"
-        android:text="@string/sign_up"
+        android:text="@string/signUp"
         android:textColor="@color/blue_ocean_variant"
         android:textSize="@dimen/btn_textSize"/>
 
