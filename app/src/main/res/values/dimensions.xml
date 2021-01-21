@@ -23,18 +23,19 @@
     <dimen name="btn_textSize">25sp</dimen>
     <dimen name="btn_Intro_signUp_marginTop">10sp</dimen>
 
-    <!-- Sign Up Activity -->
-    <dimen name="btn_signUp_MarginTop">30dp</dimen>
-    <dimen name="toolbar_signUp_title_txt_size">18sp</dimen>
+    <!-- Sign Up/In Activity -->
+    <dimen name="btn_signUpIn_MarginTop">30dp</dimen>
+    <dimen name="toolbar_signUpIn_title_txt_size">18sp</dimen>
     <dimen name="auth_signUp_screen_content_marginTop">40dp</dimen>
-    <dimen name="auth_signUp_description_txt_size">16sp</dimen>
-    <dimen name="auth_signUp_screen_marginStartEnd">25dp</dimen>
-    <dimen name="auth_signUp_screen_cardView_marginTop">60dp</dimen>
-    <dimen name="cardView_signUp_elevation">10dp</dimen>
-    <dimen name="cardView_signUp_cornerRadius">10dp</dimen>
-    <dimen name="cardView_signUp_layout_content_padding">16dp</dimen>
-    <dimen name="auth_signUp_screen_til_marginStartEnd">16dp</dimen>
-    <dimen name="et_signUp_txt_size">16sp</dimen>
-    <dimen name="auth_signUp_screen_til_marginTop">20dp</dimen>
+    <dimen name="auth_signUpIn_description_txt_size">16sp</dimen>
+    <dimen name="auth_signUpIn_screen_marginStartEnd">25dp</dimen>
+    <dimen name="auth_signUpIn_screen_cardView_marginTop">60dp</dimen>
+    <dimen name="cardView_signUpIn_elevation">10dp</dimen>
+    <dimen name="cardView_signUpIn_cornerRadius">10dp</dimen>
+    <dimen name="cardView_signUpIn_layout_content_padding">16dp</dimen>
+    <dimen name="auth_signUpIn_screen_til_marginStartEnd">16dp</dimen>
+    <dimen name="et_signUpIn_txt_size">16sp</dimen>
+    <dimen name="auth_signUpIn_screen_til_marginTop">20dp</dimen>
+    <dimen name="auth_screen_signIn_marginTop">50dp</dimen>
 
 </resources>

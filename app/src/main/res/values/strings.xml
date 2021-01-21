@@ -8,8 +8,9 @@
     <string name="signIn">Sign in</string>
     <string name="signUp">Sign up</string>
 
-    <!-- SignUp Activity -->
+    <!-- SignUpIn Activity -->
     <string name="signUp_description_txt">Enter your name, your email id and password to register with us</string>
+    <string name="signIn_description_txt">Enter your email and password</string>
     <string name="name">Name</string>
     <string name="password">Password</string>
     <string name="email">Email</string>

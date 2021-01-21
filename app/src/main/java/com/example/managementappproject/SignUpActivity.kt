@@ -18,7 +18,7 @@ class SignUpActivity : AppCompatActivity() {
         setupActionBar()
     }
 
-    /** set action bar with android's default method setSupportActionBar + back arrow to IntroActivity*/
+    /** set action bar with android's default method setSupportActionBar + back arrow to IntroActivity */
     private fun setupActionBar(){
         setSupportActionBar(toolbar_singUp_activity)
 
