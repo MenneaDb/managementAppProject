@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d478b13e-37a0-4b08-b9f1-1688a06ca566" name="Default Changelist" comment="Sign Up activity (name/email/password). The toolbar is enable with a back arrow to go back to the IntroActivity. I implemented a clickListener to the sign up button of the IntroActivity in order to get to the SignUpActivity.">
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/managementappproject/IntroActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/managementappproject/IntroActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/managementappproject/SignUpActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/managementappproject/SignUpActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/dimensions.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimensions.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[Pixel_3a_Emulator]" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1nIvyNzgymhWD2QJO0jUtG3gepZ" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_3a_Emulator" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2021-01-21T18:37:43.778Z" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="android.template.1415550887">
+      <recent name="com.example.managementappproject" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+      <module name="ManagementAppProject.app" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d478b13e-37a0-4b08-b9f1-1688a06ca566" name="Default Changelist" comment="" />
+      <created>1611090673026</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1611090673026</updated>
+    </task>
+    <task id="LOCAL-00001" summary="new commit">
+      <created>1611240509853</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1611240509853</updated>
+    </task>
+    <task id="LOCAL-00002" summary="new commit">
+      <created>1611240543900</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1611240543900</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Sign Up activity (name/email/password). The toolbar is enable with a back arrow to go back to the IntroActivity. I implemented a clickListener to the sign up button of the IntroActivity in order to get to the SignUpActivity.">
+      <created>1611266486171</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1611266486173</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="new commit" />
+    <MESSAGE value="Sign Up activity (name/email/password). The toolbar is enable with a back arrow to go back to the IntroActivity. I implemented a clickListener to the sign up button of the IntroActivity in order to get to the SignUpActivity." />
+    <option name="LAST_COMMIT_MESSAGE" value="Sign Up activity (name/email/password). The toolbar is enable with a back arrow to go back to the IntroActivity. I implemented a clickListener to the sign up button of the IntroActivity in order to get to the SignUpActivity." />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="411" y="242" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog" timestamp="1611237714335">
+      <screen x="0" y="25" width="1440" height="822" />
+    </state>
+    <state x="411" y="242" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog/0.25.1440.822/-205.-1055.1920.1055@0.25.1440.822" timestamp="1611237714335" />
+    <state x="392" y="128" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1611262211577">
+      <screen x="0" y="25" width="1440" height="820" />
+    </state>
+    <state x="392" y="128" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.25.1440.820/-205.-1055.1920.1055@0.25.1440.820" timestamp="1611262211577" />
+    <state x="101" y="127" width="1240" height="630" key="AVDManager" timestamp="1611253837442">
+      <screen x="0" y="25" width="1440" height="821" />
+    </state>
+    <state x="101" y="127" width="1240" height="630" key="AVDManager/0.25.1440.821/-205.-1055.1920.1055@0.25.1440.821" timestamp="1611253837442" />
+    <state x="517" y="334" key="Github.ShareDialog" timestamp="1611266291354">
+      <screen x="0" y="25" width="1440" height="875" />
+    </state>
+    <state x="517" y="315" key="Github.ShareDialog/0.25.1440.821/-205.-1055.1920.1055@0.25.1440.821" timestamp="1611240253223" />
+    <state x="517" y="334" key="Github.ShareDialog/0.25.1440.875/-205.-1055.1920.987@0.25.1440.875" timestamp="1611266291354" />
+    <state x="205" y="121" key="IDE.errors.dialog" timestamp="1611260398110">
+      <screen x="0" y="25" width="1440" height="820" />
+    </state>
+    <state x="205" y="121" key="IDE.errors.dialog/0.25.1440.820/-205.-1055.1920.1055@0.25.1440.820" timestamp="1611260398110" />
+    <state x="144" y="93" key="MergeDialog" timestamp="1611240458840">
+      <screen x="0" y="25" width="1440" height="821" />
+    </state>
+    <state x="144" y="93" key="MergeDialog/0.25.1440.821/-205.-1055.1920.1055@0.25.1440.821" timestamp="1611240458840" />
+    <state x="272" y="148" key="MultipleFileMergeDialog" timestamp="1611240462926">
+      <screen x="0" y="25" width="1440" height="821" />
+    </state>
+    <state x="272" y="148" key="MultipleFileMergeDialog/0.25.1440.821/-205.-1055.1920.1055@0.25.1440.821" timestamp="1611240462926" />
+    <state x="46" y="25" width="1216" height="822" key="SettingsEditor" timestamp="1611238549599">
+      <screen x="0" y="25" width="1440" height="821" />
+    </state>
+    <state x="46" y="25" width="1216" height="822" key="SettingsEditor/0.25.1440.821/-205.-1055.1920.1055@0.25.1440.821" timestamp="1611238549599" />
+    <state x="499" y="325" key="SetupCloudRepositoryDialog" timestamp="1611240226593">
+      <screen x="0" y="25" width="1440" height="821" />
+    </state>
+    <state x="499" y="325" key="SetupCloudRepositoryDialog/0.25.1440.821/-205.-1055.1920.1055@0.25.1440.821" timestamp="1611240226593" />
+    <state x="220" y="109" key="Vcs.Push.Dialog.v2" timestamp="1611266509417">
+      <screen x="0" y="25" width="1440" height="821" />
+    </state>
+    <state x="220" y="109" key="Vcs.Push.Dialog.v2/0.25.1440.821/-205.-1055.1920.1055@0.25.1440.821" timestamp="1611266509417" />
+    <state x="474" y="335" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1611266305938">
+      <screen x="0" y="25" width="1440" height="821" />
+    </state>
+    <state x="474" y="335" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1440.821/-205.-1055.1920.1055@0.25.1440.821" timestamp="1611266305938" />
+    <state x="301" y="25" width="838" height="1031" key="search.everywhere.popup" timestamp="1611267810656">
+      <screen x="0" y="25" width="1440" height="821" />
+    </state>
+    <state x="301" y="25" width="838" height="1030" key="search.everywhere.popup/0.25.1440.820/-205.-1055.1920.1055@0.25.1440.820" timestamp="1611262115710" />
+    <state x="301" y="25" width="838" height="1031" key="search.everywhere.popup/0.25.1440.821/-205.-1055.1920.1055@0.25.1440.821" timestamp="1611267810656" />
+    <state x="301" y="25" width="838" height="1032" key="search.everywhere.popup/0.25.1440.822/-205.-1055.1920.1055@0.25.1440.822" timestamp="1611237725950" />
+  </component>
+</project>
