@@ -1,14 +1,14 @@
-package com.example.managementappproject
+package com.example.managementappproject.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.WindowManager
 import android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
+import com.example.managementappproject.R
 import kotlinx.android.synthetic.main.activity_intro.*
 
 @Suppress("DEPRECATION")
-class IntroActivity : AppCompatActivity() {
+class IntroActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)

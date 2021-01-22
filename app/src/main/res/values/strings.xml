@@ -15,4 +15,8 @@
     <string name="password">Password</string>
     <string name="email">Email</string>
 
+    <!-- Dialog-progress -->
+    <string name="please_click_back_again_to_exit">Pleas click back again to exit</string>
+    <string name="please_wait">Please Wait&#8230;</string>
+
 </resources>

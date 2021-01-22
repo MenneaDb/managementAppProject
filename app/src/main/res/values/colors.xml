@@ -16,4 +16,6 @@
 
     <color name="startColor">#0BCCEB</color>
     <color name="endColor">#0A80F5</color>
+
+    <color name="snackBar_error_color">#F72400</color>
 </resources>

@@ -38,4 +38,10 @@
     <dimen name="auth_signUpIn_screen_til_marginTop">20dp</dimen>
     <dimen name="auth_screen_signIn_marginTop">50dp</dimen>
 
+    <!-- Dialog-progress -->
+    <dimen name="progress_dialog_content_padding">10dp</dimen>
+    <dimen name="progress_bar_size">50dp</dimen>
+    <dimen name="progress_txt_marginStart">16dp</dimen>
+    <dimen name="progress_txt_size">16sp</dimen>
+
 </resources>
