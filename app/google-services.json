@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "378993123917",
+    "project_id": "manageit-ab9f7",
+    "storage_bucket": "manageit-ab9f7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:378993123917:android:06d1e4279a325ddc733204",
+        "android_client_info": {
+          "package_name": "com.example.managementappproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "378993123917-4f5ofivthkeph7j5qfu53tpps2ari55n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.managementappproject",
+            "certificate_hash": "a052ce8126d0a5a521b6514c0ddd3d94d9b53e39"
+          }
+        },
+        {
+          "client_id": "378993123917-qi4lqm78pnb2igskh0f8mhpd2u93asr6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxCr9Q8_YkVOgJO39uA79hXFtGubUSZt8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "378993123917-qi4lqm78pnb2igskh0f8mhpd2u93asr6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
