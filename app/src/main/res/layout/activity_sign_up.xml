@@ -83,7 +83,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/email"
-                        android:inputType="textPassword"
+                        android:inputType="textEmailAddress"
                         android:textSize="@dimen/et_signUpIn_txt_size" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -98,7 +98,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/password"
-                        android:inputType="textEmailAddress"
+                        android:inputType="textPassword"
                         android:textSize="@dimen/et_signUpIn_txt_size" />
                 </com.google.android.material.textfield.TextInputLayout>
 

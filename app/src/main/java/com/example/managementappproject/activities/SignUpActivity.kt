@@ -14,9 +14,14 @@ import kotlinx.android.synthetic.main.activity_sign_up.*
 *  I have created (error displayed, progress dialog) */
 @Suppress("DEPRECATION")
 class SignUpActivity : BaseActivity() {
+
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
+
+        auth = FirebaseAuth.getInstance()
 
         window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -24,6 +29,11 @@ class SignUpActivity : BaseActivity() {
         )
 
         setupActionBar()
+
+        // Click event for sign-up button
+        btn_signUp.setOnClickListener {
+            registerUser()
+        }
     }
 
     /** set action bar with android's default method setSupportActionBar + back arrow to IntroActivity */
@@ -39,9 +49,6 @@ class SignUpActivity : BaseActivity() {
 
         toolbar_singUp_activity.setNavigationOnClickListener { onBackPressed() }
 
-        btn_signUp.setOnClickListener {
-            registerUser()
-        }
     }
 
     // when the use press the signUp btn from SignUp activity can call this method
@@ -52,8 +59,8 @@ class SignUpActivity : BaseActivity() {
 
         if (validateForm(name, email, password)) {
             showProgressDialog(resources.getString(R.string.please_wait))
-            FirebaseAuth.getInstance()
-                .createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+
+            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                     hideProgressDialog()
                     if (task.isSuccessful) {
                         val firebaseUser: FirebaseUser = task.result!!.user!!
