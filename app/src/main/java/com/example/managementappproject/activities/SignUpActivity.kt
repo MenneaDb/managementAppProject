@@ -5,13 +5,15 @@ import android.text.TextUtils
 import android.view.WindowManager
 import android.widget.Toast
 import com.example.managementappproject.R
+import com.example.managementappproject.firebase.FirestoreClass
+import com.example.managementappproject.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
-/* I need this class to be able to use all of the functionality of AppCompactActivity
-*  but at the same time  of the BaseActivity as well, which contains features that
-*  I have created (error displayed, progress dialog) */
+/** I need this class to be able to use all of the functionality of AppCompactActivity
+    but at the same time  of the BaseActivity as well, which contains features that
+    I have created (error displayed, progress dialog) */
 @Suppress("DEPRECATION")
 class SignUpActivity : BaseActivity() {
 
@@ -29,11 +31,17 @@ class SignUpActivity : BaseActivity() {
         )
 
         setupActionBar()
+    }
+    /** We are registering the user on 2 levels(Auth & FireStore database). This is why we create a similar
+     * methods inside this class (registerUser()). We need to make sure that every time a user is registered we
+     * need to call the registerUser() method from the FireStore class */
+    fun userRegisteredSuccess(){
+        Toast.makeText(this, "you have successfully registered",
+        Toast.LENGTH_LONG).show()
+        hideProgressDialog() // I removed it from the registerUser() method because we need to declare it only once.
 
-        // Click event for sign-up button
-        btn_signUp.setOnClickListener {
-            registerUser()
-        }
+        FirebaseAuth.getInstance().signOut()
+        finish()
     }
 
     /** set action bar with android's default method setSupportActionBar + back arrow to IntroActivity */
@@ -49,9 +57,14 @@ class SignUpActivity : BaseActivity() {
 
         toolbar_singUp_activity.setNavigationOnClickListener { onBackPressed() }
 
+        // Click event for sign-up button
+        btn_signUp.setOnClickListener {
+            registerUser()
+        }
+
     }
 
-    // when the use press the signUp btn from SignUp activity can call this method
+    /** when the use press the signUp btn from SignUp activity can call this method */
     private fun registerUser(){
         val name: String = et_signUp_name.text.toString().trim { it <= ' '}
         val email: String = et_signUp_email.text.toString().trim {it <= ' '}
@@ -61,18 +74,13 @@ class SignUpActivity : BaseActivity() {
             showProgressDialog(resources.getString(R.string.please_wait))
 
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-                    hideProgressDialog()
                     if (task.isSuccessful) {
                         val firebaseUser: FirebaseUser = task.result!!.user!!
                         val registeredEmail = firebaseUser.email!!
-                        Toast.makeText(
-                            this, "$name you have " +
-                                    "successfully registered the email " +
-                                    "address $registeredEmail",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        FirebaseAuth.getInstance().signOut()
-                        finish()
+                        // we don't need to signOut from here anymore but I need to create a new user.
+                        val user = User(firebaseUser.uid, name, registeredEmail)
+                        // now we can pass the user to the registerUser method of the FireStore class
+                        FirestoreClass().registerUser(this@SignUpActivity, user)
                     } else {
                         Toast.makeText(
                             this,
@@ -85,7 +93,7 @@ class SignUpActivity : BaseActivity() {
         }
     }
 
-    /* method to validate a form, I want to check if the user enter values or not.
+    /** method to validate a form, I want to check if the user enter values or not.
        I a need a method to register the user in order to use this method and check
        if the values are passed from the user. */
     private fun validateForm(name: String, email: String, password: String): Boolean{
