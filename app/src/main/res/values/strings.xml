@@ -15,10 +15,11 @@
     <string name="password">Password</string>
     <string name="email">Email</string>
 
-    <!-- Dialog-progress -->
+    <!-- Dialog Progress -->
     <string name="please_click_back_again_to_exit">Pleas click back again to exit</string>
     <string name="please_wait">Please Wait&#8230;</string>
 
+    <!-- Navigation Menu -->
     <string name="nav_my_profile">My Profile</string>
     <string name="nav_signOut">Sign Out</string>
 
