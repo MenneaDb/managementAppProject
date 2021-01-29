@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
 import com.example.managementappproject.R
+import com.example.managementappproject.models.User
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
@@ -33,6 +34,15 @@ class SignInActivity : BaseActivity() {
         }
 
         setUpActionBar()
+    }
+    // User from our model, not firebase
+    fun signInSuccess(user: User){
+        // 1st we want to hide the dialog after we signIn
+        hideProgressDialog()
+        // 2nd start an activity to send the user to the main activity
+        startActivity(Intent(this@SignInActivity, MainActivity::class.java))
+        // 3rd we finish the activity and the user can't go back to it
+        finish()
     }
 
     private fun setUpActionBar() {

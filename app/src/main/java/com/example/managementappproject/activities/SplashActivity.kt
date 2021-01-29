@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
 import com.example.managementappproject.R
+import com.example.managementappproject.firebase.FirestoreClass
 import kotlinx.android.synthetic.main.activity_splash.*
 
  @Suppress("DEPRECATION")
@@ -24,7 +25,15 @@ import kotlinx.android.synthetic.main.activity_splash.*
          *  we start an Intent to switch from an activity to another. By applying finish()
          *  we destroy the activity and the user can't come back to it.*/
         Handler().postDelayed({
-            startActivity(Intent(this, IntroActivity::class.java ))
+            // here we can check if the currentUserID is not null and send the user directly to MainActivity
+            var currentUserID = FirestoreClass().getCurrentUserId()
+            if (currentUserID.isNotEmpty()){
+                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+            }else{
+                // if the string is empty it will send us to the IntroActivity
+                startActivity(Intent(this@SplashActivity, IntroActivity::class.java))
+            }
+
             finish()
            }, 2500)
 
