@@ -73,7 +73,7 @@ class FirestoreClass {
     fun getCurrentUserId(): String{
 
         // we store the instance of the current user inside this variable to check if the user is null or null
-        var currentUser = FirebaseAuth.getInstance().currentUser
+        val currentUser = FirebaseAuth.getInstance().currentUser
         // we create the variable that will return the value for this method(valid value, not null)
         var currentUserID = ""
         if (currentUser != null){
