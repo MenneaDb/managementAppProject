@@ -22,5 +22,6 @@
     <!-- Navigation Menu -->
     <string name="nav_my_profile">My Profile</string>
     <string name="nav_signOut">Sign Out</string>
+    <string name="nav_username_txtView">Username</string>
 
 </resources>

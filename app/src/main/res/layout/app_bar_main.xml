@@ -16,10 +16,10 @@
             android:id="@+id/toolbar_main_activity"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopUpOverlay">
-        </androidx.appcompat.widget.Toolbar>
-
+            android:background="@color/blue_ocean"
+            app:popupTheme="@style/AppTheme.PopUpOverlay"/>
     </com.google.android.material.appbar.AppBarLayout>
+
+    <include layout="@layout/content_main"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
