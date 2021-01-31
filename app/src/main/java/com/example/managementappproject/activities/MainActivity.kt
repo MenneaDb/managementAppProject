@@ -6,11 +6,15 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.view.GravityCompat
+import com.bumptech.glide.Glide
 import com.example.managementappproject.R
+import com.example.managementappproject.firebase.FirestoreClass
+import com.example.managementappproject.models.User
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,6 +26,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         /* because this class will be a NavigationItemSelectedListener as we specified on top of the code(extension)
            When one of the buttons is clicked, the compiler will execute the logic this class*/
         nav_view.setNavigationItemSelectedListener(this)
+
+        FirestoreClass().signInUser(this@MainActivity)
     }
 
     private fun setUpActionBar(){
@@ -53,6 +59,19 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             // double press to exit
             doubleBackToExit()
         }
+    }
+
+    fun updateNavigationUserDetails(user: User){
+     // load image for the user and text for nav_menu
+        Glide
+                .with(this@MainActivity) // specify where you need it
+                .load(user.image) // url of where the image is stored
+                .fitCenter()
+                .placeholder(R.drawable.ic_user_place_holder)
+                .into(nav_user_image) // where we want to display the picture
+
+        //set the txtView of the nav_menu with the name of the specific user
+        tv_username.text = user.name
     }
 
     // functionality that execute once with press to one of navigation item buttons

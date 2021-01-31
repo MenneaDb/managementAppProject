@@ -1,6 +1,8 @@
 package com.example.managementappproject.firebase
 
+import android.app.Activity
 import android.util.Log
+import com.example.managementappproject.activities.MainActivity
 import com.example.managementappproject.activities.SignInActivity
 import com.example.managementappproject.activities.SignUpActivity
 import com.example.managementappproject.models.User
@@ -45,7 +47,7 @@ class FirestoreClass {
         related to getCurrentUserId() by using a lambda expression, once we have it we can make an Object from it. We need
         to specify for which class we want to use it -> I want to make an user Object from whatever is given to me from the
         document--> toObject(User::class.java) */
-    fun signInUser(activity: SignInActivity){
+    fun signInUser(activity: Activity){
         mFireStore.collection(Constants.USERS)
                 .document(getCurrentUserId())
                 .get()
@@ -53,13 +55,29 @@ class FirestoreClass {
                     // we want to  store the document we get and make it as Object of the User class.
                     val loggedInUser = document.toObject(User::class.java)
                     // now I can signIn the user and use a new method from signInActivity to execute it.
-                    if (loggedInUser != null)
-                        activity.signInSuccess(loggedInUser)
-
+                    if (loggedInUser != null) {
+                        // it will works accordingly with the activity that will call this method
+                        when (activity) {
+                            is SignInActivity -> {
+                                activity.signInSuccess(loggedInUser)
+                            }
+                            is MainActivity -> {
+                            activity.updateNavigationUserDetails(loggedInUser)}
+                        }
+                    }
                 }.addOnFailureListener{
-                    e->
-                    Log.e("signInUser","Error writing document")
+                        e->
+                // we need to hide the activity
+                when (activity) {
+                    is SignInActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                    is MainActivity -> {
+                        activity.hideProgressDialog()
+                    }
                 }
+                Log.e("signInUser","Error writing document")
+        }
     }
 
     /** I created this method in order to return the unique Id (UID) provided by the Authentication side of the database and
@@ -83,8 +101,5 @@ class FirestoreClass {
         }
         return currentUserID
     }
-
-
-
 
 }
