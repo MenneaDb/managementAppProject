@@ -48,7 +48,7 @@
             android:layout_marginStart="@dimen/auth_signUpIn_screen_marginStartEnd"
             android:layout_marginTop="@dimen/auth_signUpIn_screen_cardView_marginTop"
             android:layout_marginEnd="@dimen/auth_signUpIn_screen_marginStartEnd"
-            android:elevation="@dimen/cardView_signUpIn_elevation"
+            android:elevation="@dimen/cardView_elevation"
             app:cardCornerRadius="@dimen/cardView_signUpIn_cornerRadius">
 
             <LinearLayout

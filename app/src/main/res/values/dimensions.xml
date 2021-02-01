@@ -30,7 +30,7 @@
     <dimen name="auth_signUpIn_description_txt_size">16sp</dimen>
     <dimen name="auth_signUpIn_screen_marginStartEnd">25dp</dimen>
     <dimen name="auth_signUpIn_screen_cardView_marginTop">60dp</dimen>
-    <dimen name="cardView_signUpIn_elevation">10dp</dimen>
+    <dimen name="cardView_elevation">10dp</dimen>
     <dimen name="cardView_signUpIn_cornerRadius">10dp</dimen>
     <dimen name="cardView_signUpIn_layout_content_padding">16dp</dimen>
     <dimen name="auth_signUpIn_screen_til_marginStartEnd">16dp</dimen>
