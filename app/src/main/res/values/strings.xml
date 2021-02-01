@@ -24,4 +24,9 @@
     <string name="nav_signOut">Sign Out</string>
     <string name="nav_username_txtView">Username</string>
 
+    <!-- My Profile -->
+    <string name="mobile">Mobile</string>
+    <string name="update">UPDATE</string>
+    <string name="my_profile">My Profile</string>
+
 </resources>
