@@ -57,7 +57,7 @@
                     android:layout_marginTop="@dimen/my_profile_name_til_marginTop">
 
                     <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/te_name"
+                        android:id="@+id/et_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/name"

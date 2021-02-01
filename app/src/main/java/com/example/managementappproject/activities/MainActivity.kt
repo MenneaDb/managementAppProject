@@ -1,10 +1,8 @@
 package com.example.managementappproject.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.core.view.GravityCompat
 import com.bumptech.glide.Glide
 import com.example.managementappproject.R
@@ -27,7 +25,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
            When one of the buttons is clicked, the compiler will execute the logic this class*/
         nav_view.setNavigationItemSelectedListener(this)
 
-        FirestoreClass().signInUser(this@MainActivity)
+        FirestoreClass().loadUserData(this@MainActivity)
     }
 
     private fun setUpActionBar(){

@@ -3,6 +3,7 @@ package com.example.managementappproject.firebase
 import android.app.Activity
 import android.util.Log
 import com.example.managementappproject.activities.MainActivity
+import com.example.managementappproject.activities.MyProfileActivity
 import com.example.managementappproject.activities.SignInActivity
 import com.example.managementappproject.activities.SignUpActivity
 import com.example.managementappproject.models.User
@@ -47,7 +48,7 @@ class FirestoreClass {
         related to getCurrentUserId() by using a lambda expression, once we have it we can make an Object from it. We need
         to specify for which class we want to use it -> I want to make an user Object from whatever is given to me from the
         document--> toObject(User::class.java) */
-    fun signInUser(activity: Activity){
+    fun loadUserData(activity: Activity){
         mFireStore.collection(Constants.USERS)
                 .document(getCurrentUserId())
                 .get()
@@ -56,13 +57,18 @@ class FirestoreClass {
                     val loggedInUser = document.toObject(User::class.java)
                     // now I can signIn the user and use a new method from signInActivity to execute it.
                     if (loggedInUser != null) {
-                        // it will works accordingly with the activity that will call this method
+                        /* it will works accordingly with the activity that will call the method, in this way we don't have to
+                           reuse the same code and do all these tasks here by reusing the user object we got from the database */
                         when (activity) {
                             is SignInActivity -> {
                                 activity.signInSuccess(loggedInUser)
                             }
                             is MainActivity -> {
-                            activity.updateNavigationUserDetails(loggedInUser)}
+                                activity.updateNavigationUserDetails(loggedInUser)
+                            }
+                            is MyProfileActivity -> {
+                                activity.setUserDataInUI(loggedInUser)
+                            }
                         }
                     }
                 }.addOnFailureListener{
