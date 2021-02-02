@@ -17,7 +17,7 @@
             android:id="@+id/toolbar_my_profile_activity"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/blue_ocean"
             app:popupTheme="@style/AppTheme.PopUpOverlay" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -45,7 +45,7 @@
                 android:padding="@dimen/my_profile_screen_content_padding">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/iv_user_image"
+                    android:id="@+id/iv_profile_user_image"
                     android:layout_width="@dimen/my_profile_user_image_size"
                     android:layout_height="@dimen/my_profile_user_image_size"
                     android:contentDescription="@string/image_contentDescription"
