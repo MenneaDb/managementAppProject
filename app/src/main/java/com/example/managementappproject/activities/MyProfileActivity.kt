@@ -228,6 +228,7 @@ class MyProfileActivity : BaseActivity() {
     // we create this method to close MyProfileActivity in the moment that the user updated its info
     fun profileUpdateSuccess(){
         hideProgressDialog()
+        setResult(Activity.RESULT_OK)
         finish()
     }
 }
