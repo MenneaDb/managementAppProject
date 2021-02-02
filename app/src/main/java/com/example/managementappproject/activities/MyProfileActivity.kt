@@ -38,12 +38,12 @@ class MyProfileActivity : BaseActivity() {
         // we need a method to get the existing data from the logged in user and show it in this activity
         FirestoreClass().loadUserData(this@MyProfileActivity)
 
-        iv_profile_user_image.setOnClickListener{
+        iv_profileUser_image.setOnClickListener {
             // condition to check if the user granted the permission to read from the external storage
             if (ContextCompat.checkSelfPermission(
-                    this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED
-            ) {
+                    this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
 
                showImageChooser()
 
@@ -52,8 +52,7 @@ class MyProfileActivity : BaseActivity() {
                 ActivityCompat.requestPermissions(
                         this,
                         arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                        READ_STORAGE_PERMISSION_CODE
-                )
+                        READ_STORAGE_PERMISSION_CODE)
             }
         }
 
@@ -61,24 +60,19 @@ class MyProfileActivity : BaseActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == READ_STORAGE_PERMISSION_CODE){
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-               showImageChooser()
+        if (requestCode == READ_STORAGE_PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                showImageChooser()
+            } else {
+                // if the user didn't grant the permission
+                Toast.makeText(this, "You just denied the permission for storage. You can allow it from Settings.", Toast.LENGTH_LONG).show()
             }
-        }else{
-            // if the user didn't grant the permission
-            Toast.makeText(
-                    this,
-                    "You just denied the permission for storage. You can allow it from Settings.",
-                    Toast.LENGTH_LONG
-            ).show()
         }
     }
 
     // to access and choose an Image from internal storage
     private fun showImageChooser(){
-        val galleryIntent = Intent(Intent.ACTION_PICK,
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         // we need to get a result
         startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST_CODE)
     }
@@ -96,11 +90,10 @@ class MyProfileActivity : BaseActivity() {
                         .load(Uri.parse(mSelectedImageFileUri.toString()))
                         .centerCrop()
                         .placeholder(R.drawable.ic_user_place_holder)
-                        .into(iv_profile_user_image)
+                        .into(iv_profileUser_image)
             }catch (e: IOException){
                 e.printStackTrace()
             }
-
         }
     }
 
@@ -127,7 +120,7 @@ class MyProfileActivity : BaseActivity() {
             .load(user.image)
             .centerCrop()
             .placeholder(R.drawable.ic_user_place_holder)
-            .into(iv_profile_user_image)
+            .into(iv_profileUser_image)
 
         et_name.setText(user.name)
         et_email.setText(user.email)
