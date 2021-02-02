@@ -2,6 +2,7 @@ package com.example.managementappproject.firebase
 
 import android.app.Activity
 import android.util.Log
+import android.widget.Toast
 import com.example.managementappproject.activities.MainActivity
 import com.example.managementappproject.activities.MyProfileActivity
 import com.example.managementappproject.activities.SignInActivity
@@ -39,6 +40,24 @@ class FirestoreClass {
                     e->
                     Log.e(activity.javaClass.simpleName,"Error writing document")
                 }
+    }
+
+    // method that will take care of updating the user's profile data
+    fun updateUserProfileData(activity: MyProfileActivity, userHashMap: HashMap<String, Any>){
+        mFireStore.collection(Constants.USERS)
+            .document(getCurrentUserId())
+            .update(userHashMap)
+            .addOnSuccessListener {
+                Log.i(activity.javaClass.simpleName, "Profile Data updated successfully!")
+                Toast.makeText(activity, "Profile updated successfully!", Toast.LENGTH_SHORT).show()
+                activity.profileUpdateSuccess()
+            }.addOnFailureListener{
+                e->
+                activity.hideProgressDialog()
+                Log.e(activity.javaClass.simpleName, "Error while creating a board", e)
+                Toast.makeText(activity, "Error when updating the profile", Toast.LENGTH_SHORT).show()
+            }
+
     }
 
     /** We create this method because we signed In the user but we didn't GET the data about him/her yet. We need to get

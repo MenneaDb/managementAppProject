@@ -8,6 +8,8 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
+import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -15,6 +17,9 @@ import com.bumptech.glide.Glide
 import com.example.managementappproject.R
 import com.example.managementappproject.firebase.FirestoreClass
 import com.example.managementappproject.models.User
+import com.example.managementappproject.utils.Constants
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_my_profile.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import java.io.IOException
@@ -28,6 +33,8 @@ class MyProfileActivity : BaseActivity() {
     }
     // it can be a String as well but I want to store it as a Uri type
     private var mSelectedImageFileUri: Uri? = null
+    private var mProfileImageURL: String = ""
+    private lateinit var mUserDetails: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +60,16 @@ class MyProfileActivity : BaseActivity() {
                         this,
                         arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                         READ_STORAGE_PERMISSION_CODE)
+            }
+        }
+
+        btn_update.setOnClickListener {
+            if (mSelectedImageFileUri != null){
+                uploadUserImage()
+            }else{
+                showProgressDialog(resources.getString(R.string.please_wait))
+                // update profile data
+                updateUserProfileData()
             }
         }
 
@@ -114,6 +131,9 @@ class MyProfileActivity : BaseActivity() {
     }
     //method to call inside loadUserData(FireStoreClass) to pass the user object we got with this method
     fun setUserDataInUI(user: User){
+
+        mUserDetails = user
+
         // we don't copy the image from its location(URI) and paste it in the app, we just reuse the URI of the existing file inside the devide
         Glide
             .with(this@MyProfileActivity)
@@ -128,6 +148,86 @@ class MyProfileActivity : BaseActivity() {
         if (user.mobile != 0L){
             et_mobile.setText(user.mobile.toString())
         }
+    }
 
+    // same name as the method we have in FireStoreClass, doesn't need specific data because the profile data is already inside this class
+    private fun updateUserProfileData(){
+        // we create a userHashMap
+        val userHashMap = HashMap<String, Any>()
+
+        // now we can add values to the HashMap(image url, name, mobile) condition -> if there's an existing url for the image we can set a new one
+        if (mProfileImageURL.isNotEmpty() && mProfileImageURL != mUserDetails.image){
+            // by referring to the key of the value inside the database, we can assign a value to it - UPDATE AN HashMap
+            userHashMap[Constants.IMAGE] = mProfileImageURL
+
+        }
+
+        // if the name is the same, we don't need to update the database
+        if (et_name.text.toString() != mUserDetails.name){
+            userHashMap[Constants.NAME] = et_name.text.toString()
+
+        }
+        // same for the mobile, the hashMap of the mobile expects a Long Value(as we set in the database)-> .toLong()
+        if (et_mobile.text.toString() != mUserDetails.mobile.toString()){
+            userHashMap[Constants.MOBILE] = et_mobile.text.toString().toLong()
+
+        }
+
+            FirestoreClass().updateUserProfileData(this, userHashMap)
+
+    }
+
+    // when we call this method we will also call the updateUserProfileData() method
+    private fun uploadUserImage(){
+        showProgressDialog(resources.getString(R.string.please_wait))
+        //if the uri is not null, we want to store the image inside the storage
+        if (mSelectedImageFileUri != null){
+            val sRef :StorageReference =
+                FirebaseStorage.getInstance().reference.child(
+                        "USER_IMAGE" + System.currentTimeMillis()
+                            + "." + getFileExtension(mSelectedImageFileUri))
+            // if the task is successful
+            sRef.putFile(mSelectedImageFileUri!!).addOnSuccessListener {
+                taskSnapshot ->
+                Log.i(
+                        "Firebase Image URL",
+                        taskSnapshot.metadata!!.reference!!.downloadUrl.toString() // with this line we create a string out of where the file is stored downloadUrl -> we need the link from the storage to store it inside the database
+                )
+                // we add another successListener to store the actual link (uri) somewhere
+                taskSnapshot.metadata!!.reference!!.downloadUrl.addOnSuccessListener {
+                    uri -> Log.i("Downloadable Image URL", uri.toString())
+                    // now we can store this value in this var
+                    mProfileImageURL = uri.toString()
+
+                    updateUserProfileData()
+                }
+            }.addOnFailureListener{
+                exception ->
+                Toast.makeText(
+                        this@MyProfileActivity,
+                        exception.message,
+                        Toast.LENGTH_LONG
+                ).show()
+
+                hideProgressDialog()
+            }
+        }
+    }
+
+    /** method to help us understand the extension fil we get from the download (if is an image we use it as an image,
+       if is not we can't use it as image or profile image). MimeTypeMap class allow us to understand the type of Uri
+       we got and .getSingleton creates an instance of the class that allow us to use its functions.
+       .getExtensionFromMimeType() will allow us to get the Type of the Uri we pass to it and use it to return the extension,
+       the type of it or find it based on the extension(.png .mp4 ..examples of extensions) */
+    private fun getFileExtension(uri: Uri?): String?{
+        return MimeTypeMap.getSingleton().getExtensionFromMimeType(contentResolver.getType(uri!!))
+    }
+
+    // we need to store the image also inside the database, not only in the storage
+
+    // we create this method to close MyProfileActivity in the moment that the user updated its info
+    fun profileUpdateSuccess(){
+        hideProgressDialog()
+        finish()
     }
 }
