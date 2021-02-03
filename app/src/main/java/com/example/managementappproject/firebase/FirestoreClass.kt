@@ -3,10 +3,8 @@ package com.example.managementappproject.firebase
 import android.app.Activity
 import android.util.Log
 import android.widget.Toast
-import com.example.managementappproject.activities.MainActivity
-import com.example.managementappproject.activities.MyProfileActivity
-import com.example.managementappproject.activities.SignInActivity
-import com.example.managementappproject.activities.SignUpActivity
+import com.example.managementappproject.activities.*
+import com.example.managementappproject.models.Board
 import com.example.managementappproject.models.User
 import com.example.managementappproject.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
@@ -40,6 +38,22 @@ class FirestoreClass {
                     e->
                     Log.e(activity.javaClass.simpleName,"Error writing document")
                 }
+    }
+
+    fun createBoard(activity: CreateBoardActivity, board: Board){
+        mFireStore.collection(Constants.BOARDS)
+            .document() // we don't specify to get auto random id
+            .set(board, SetOptions.merge()) // if the data exists we want to merge it
+            .addOnSuccessListener {
+                Log.i(activity.javaClass.simpleName, "Board created successfully.")
+
+                    Toast.makeText(activity, "Board created successfully.", Toast.LENGTH_SHORT).show()
+                activity.boardCreatedSuccessfully()
+            }.addOnFailureListener {
+                exception ->
+                activity.hideProgressDialog()
+                Log.e(activity.javaClass.simpleName, "Error while creating a board.", exception)
+            }
     }
 
     // method that will take care of updating the user's profile data

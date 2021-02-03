@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.managementappproject.R
 import com.example.managementappproject.firebase.FirestoreClass
 import com.example.managementappproject.models.User
+import com.example.managementappproject.utils.Constants
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
@@ -21,6 +22,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     companion object {
         const val MY_PROFILE_REQUEST_CODE = 11
     }
+    // to store the username
+    private lateinit var mUserName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,10 +35,14 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
            When one of the buttons is clicked, the compiler will execute the logic this class*/
         nav_view.setNavigationItemSelectedListener(this)
 
+        /* we call this method before the next one because is the one that interact with a method from the FireStore class
+           and load the data from the user to this activity */
         FirestoreClass().loadUserData(this@MainActivity)
 
         fab_create_board.setOnClickListener{
-            startActivity(Intent(this, CreateBoardActivity::class.java))
+            val intent = Intent(this, CreateBoardActivity::class.java)
+            intent.putExtra(Constants.NAME, mUserName)
+            startActivity(intent)
         }
     }
 
@@ -71,6 +78,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     fun updateNavigationUserDetails(user: User){
+
+        mUserName = user.name
+
      // load image for the user and text for nav_menu
         Glide
                 .with(this@MainActivity) // specify where you need it
