@@ -18,4 +18,6 @@
     <color name="endColor">#0A80F5</color>
 
     <color name="snackBar_error_color">#F72400</color>
+
+    <color name="divider_color">#EAEAEA</color>
 </resources>
