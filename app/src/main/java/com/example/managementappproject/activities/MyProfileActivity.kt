@@ -26,11 +26,6 @@ import java.io.IOException
 
 class MyProfileActivity : BaseActivity() {
 
-    // we create constants for the permission codes
-    companion object {
-        private const val READ_STORAGE_PERMISSION_CODE = 1
-        private const val PICK_IMAGE_REQUEST_CODE = 2
-    }
     // it can be a String as well but I want to store it as a Uri type
     private var mSelectedImageFileUri: Uri? = null
     private var mProfileImageURL: String = ""
@@ -52,14 +47,14 @@ class MyProfileActivity : BaseActivity() {
                     Manifest.permission.READ_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
 
-               showImageChooser()
+               Constants.showImageChooser(this@MyProfileActivity)
 
             }else{
                 // if it is not granted, we ask the user for it.
                 ActivityCompat.requestPermissions(
                         this,
                         arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                        READ_STORAGE_PERMISSION_CODE)
+                        Constants.READ_STORAGE_PERMISSION_CODE)
             }
         }
 
@@ -77,9 +72,9 @@ class MyProfileActivity : BaseActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == READ_STORAGE_PERMISSION_CODE) {
+        if (requestCode == Constants.READ_STORAGE_PERMISSION_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                showImageChooser()
+                Constants.showImageChooser(this@MyProfileActivity)
             } else {
                 // if the user didn't grant the permission
                 Toast.makeText(this, "You just denied the permission for storage. You can allow it from Settings.", Toast.LENGTH_LONG).show()
@@ -87,17 +82,10 @@ class MyProfileActivity : BaseActivity() {
         }
     }
 
-    // to access and choose an Image from internal storage
-    private fun showImageChooser(){
-        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        // we need to get a result
-        startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST_CODE)
-    }
-
     //I want to do something when I get startActivityForResult
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == PICK_IMAGE_REQUEST_CODE && data!!.data != null){
+        if (resultCode == Activity.RESULT_OK && requestCode == Constants.PICK_IMAGE_REQUEST_CODE && data!!.data != null){
             //data that we get from ActivityResult and store it inside this var
             mSelectedImageFileUri = data.data
 
@@ -173,7 +161,7 @@ class MyProfileActivity : BaseActivity() {
 
         }
 
-            FirestoreClass().updateUserProfileData(this, userHashMap)
+            FirestoreClass().updateUserProfileData(this@MyProfileActivity, userHashMap)
 
     }
 
@@ -185,7 +173,7 @@ class MyProfileActivity : BaseActivity() {
             val sRef :StorageReference =
                 FirebaseStorage.getInstance().reference.child(
                         "USER_IMAGE" + System.currentTimeMillis()
-                            + "." + getFileExtension(mSelectedImageFileUri))
+                            + "." + Constants.getFileExtension(this, mSelectedImageFileUri))
             // if the task is successful
             sRef.putFile(mSelectedImageFileUri!!).addOnSuccessListener {
                 taskSnapshot ->
@@ -213,17 +201,6 @@ class MyProfileActivity : BaseActivity() {
             }
         }
     }
-
-    /** method to help us understand the extension fil we get from the download (if is an image we use it as an image,
-       if is not we can't use it as image or profile image). MimeTypeMap class allow us to understand the type of Uri
-       we got and .getSingleton creates an instance of the class that allow us to use its functions.
-       .getExtensionFromMimeType() will allow us to get the Type of the Uri we pass to it and use it to return the extension,
-       the type of it or find it based on the extension(.png .mp4 ..examples of extensions) */
-    private fun getFileExtension(uri: Uri?): String?{
-        return MimeTypeMap.getSingleton().getExtensionFromMimeType(contentResolver.getType(uri!!))
-    }
-
-    // we need to store the image also inside the database, not only in the storage
 
     // we create this method to close MyProfileActivity in the moment that the user updated its info
     fun profileUpdateSuccess(){
