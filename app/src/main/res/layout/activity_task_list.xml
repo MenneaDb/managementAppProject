@@ -16,7 +16,7 @@
             android:id="@+id/toolbar_task_list_activity"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/blue_ocean"
             app:popupTheme="@style/AppTheme.PopUpOverlay" />
     </com.google.android.material.appbar.AppBarLayout>
 

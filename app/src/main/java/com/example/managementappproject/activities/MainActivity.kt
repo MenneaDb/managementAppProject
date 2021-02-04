@@ -75,7 +75,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 the boardList element)  */
             adapter.setOnClickListener(object: BoardItemsAdapter.OnClickListener{
                 override fun onClick(position: Int, model: Board) {
-                    startActivity(Intent(this@MainActivity, TaskListActivity::class.java))
+                    val intent = Intent(this@MainActivity, TaskListActivity::class.java)
+                    /** we want to put it inside DOCUMENT_ID, the info we want to pass is the one we get from the model of
+                        the one we get inside the onClick method, we get documentId from the Board class and assign it to
+                        our Constant and pass it over when we start the activity */
+                    intent.putExtra(Constants.DOCUMENT_ID, model.documentId)
+                    startActivity(intent)
                 }
 
             })

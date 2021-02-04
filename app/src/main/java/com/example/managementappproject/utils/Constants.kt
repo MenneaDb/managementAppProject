@@ -18,6 +18,8 @@ object Constants {
     const val MOBILE: String = "mobile"
 
     const val ASSIGNED_TO: String = "assignedTo"
+    // we need to pass info from boardList to TaskList
+    const val DOCUMENT_ID: String = "documentId"
 
     const val READ_STORAGE_PERMISSION_CODE = 1
     const val PICK_IMAGE_REQUEST_CODE = 2

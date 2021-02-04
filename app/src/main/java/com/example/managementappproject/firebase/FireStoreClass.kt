@@ -40,6 +40,24 @@ class FireStoreClass {
                 }
     }
 
+    fun getBoardDetails(activity: TaskListActivity, documentId: String){
+        mFireStore.collection(Constants.BOARDS)
+            .document(documentId) // we need the document where the specific documentId was passed to this method
+            .get()
+            .addOnSuccessListener{
+                document->
+                Log.i(activity.javaClass.simpleName, document.toString())
+
+                activity.boardDetails(document.toObject(Board::class.java)!!)
+
+            }.addOnFailureListener {
+                e ->
+                activity.hideProgressDialog()
+                Log.e(activity.javaClass.simpleName, "Error while creating a board", e)
+            }
+
+    }
+
     fun createBoard(activity: CreateBoardActivity, board: Board){
         mFireStore.collection(Constants.BOARDS)
             .document() // we don't specify to get auto random id
