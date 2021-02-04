@@ -86,4 +86,7 @@
     <dimen name="item_board_divider_marginTop">5dp</dimen>
     <dimen name="item_board_divider_height">0.5dp</dimen>
 
+    <!-- Task List -->
+    <dimen name="task_list_content_padding">10dp</dimen>
+
 </resources>

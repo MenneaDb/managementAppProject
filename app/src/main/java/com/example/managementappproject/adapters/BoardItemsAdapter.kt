@@ -43,6 +43,12 @@ open class BoardItemsAdapter (private val context: Context, private val list: Ar
         fun onClick(position: Int, model: Board)
     }
 
+    // we already have an interface but we need also a method as onClickListener
+    fun setOnClickListener(onClickListener: OnClickListener){
+        // the onClickListener of this class should be the onClickListener that is passed to this method
+        this.onClickListener = onClickListener
+    }
+
     override fun getItemCount(): Int {
        return list.size
     }

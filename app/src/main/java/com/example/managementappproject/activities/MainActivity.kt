@@ -69,6 +69,16 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             // refer to the adapter and assign it to the board lists
             val adapter = BoardItemsAdapter(this, boardList)
             rv_boards_list.adapter = adapter
+
+            /** we set a click event for each object of the boardsList - we implementing the interface we created inside the
+                BoardItemsAdapter and we are saying what should happen when the onClick method is triggered(click of one of
+                the boardList element)  */
+            adapter.setOnClickListener(object: BoardItemsAdapter.OnClickListener{
+                override fun onClick(position: Int, model: Board) {
+                    startActivity(Intent(this@MainActivity, TaskListActivity::class.java))
+                }
+
+            })
         }else{
             // if the board list is empty we don't want to display it
             rv_boards_list.visibility = View.GONE
