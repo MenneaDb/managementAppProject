@@ -20,7 +20,7 @@ import com.google.firebase.firestore.SetOptions
  * Collection/Documents/Attributes --> We create everything here inside the project and it will be push
  *                                     inside the database.
  */
-class FirestoreClass {
+class FireStoreClass {
 
     private val mFireStore = FirebaseFirestore.getInstance()
 
@@ -56,6 +56,32 @@ class FirestoreClass {
             }
     }
 
+    /** get board list from fireStore database --> MainActivity as the activity that call this function. We can use QUERY
+       here because it's implemented by the fireStore database, not by the real time database and this a big difference
+       between them */
+    fun getBoardsList(activity: MainActivity){
+        mFireStore.collection(Constants.BOARDS)
+                .whereArrayContains(Constants.ASSIGNED_TO, getCurrentUserId())
+                .get()
+                .addOnSuccessListener { document ->
+                    Log.i(activity.javaClass.simpleName, document.documents.toString()) // display the snapshot of the document we get from the query that is ASSIGNED_TO us.
+                    val boardList: ArrayList<Board> = ArrayList()
+                    // go through the all document and add every board to the boardList
+                    for (i in document.documents) {
+                        val board = i.toObject(Board::class.java)!! // every object you have, make it as Board object and stored in this var
+                        board.documentId = i.id
+                        boardList.add(board)
+                    }
+                    // we need to populate the activity with the boardList we just created
+                    activity.populateBoardsListToUI(boardList)
+
+                }.addOnFailureListener {
+                    e ->
+                    activity.hideProgressDialog()
+                    Log.e(activity.javaClass.simpleName, "Error while creating a board", e)
+                }
+    }
+
     // method that will take care of updating the user's profile data
     fun updateUserProfileData(activity: MyProfileActivity, userHashMap: HashMap<String, Any>){
         mFireStore.collection(Constants.USERS)
@@ -81,7 +107,7 @@ class FirestoreClass {
         related to getCurrentUserId() by using a lambda expression, once we have it we can make an Object from it. We need
         to specify for which class we want to use it -> I want to make an user Object from whatever is given to me from the
         document--> toObject(User::class.java) */
-    fun loadUserData(activity: Activity){
+    fun loadUserData(activity: Activity, readBoardsList:  Boolean = false){
         mFireStore.collection(Constants.USERS)
                 .document(getCurrentUserId())
                 .get()
@@ -97,11 +123,12 @@ class FirestoreClass {
                                 activity.signInSuccess(loggedInUser)
                             }
                             is MainActivity -> {
-                                activity.updateNavigationUserDetails(loggedInUser)
+                                activity.updateNavigationUserDetails(loggedInUser, readBoardsList) // we only want to read the boards in the Main Activity, only  if is necessary
                             }
                             is MyProfileActivity -> {
                                 activity.setUserDataInUI(loggedInUser)
                             }
+                            // I want to know if I need to read the List or I shouldn't, this is why we use the boolean value
                         }
                     }
                 }.addOnFailureListener{
@@ -115,7 +142,7 @@ class FirestoreClass {
                         activity.hideProgressDialog()
                     }
                 }
-                Log.e("signInUser","Error writing document")
+                Log.e("signInUser","Error writing document", e)
         }
     }
 

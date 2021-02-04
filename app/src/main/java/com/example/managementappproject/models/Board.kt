@@ -3,18 +3,22 @@ package com.example.managementappproject.models
 import android.os.Parcel
 import android.os.Parcelable
 
+// could be multiple users, must be an arrayList , documentId as var to be able to change it
 data class Board(
-    val name: String = "",
-    val image: String = "",
-    val createdBy: String = "",
-    val assignedTo: ArrayList<String> = ArrayList() // could be multiple users, must be an arrayList
+        val name: String = "",
+        val image: String = "",
+        val createdBy: String = "",
+        val assignedTo: ArrayList<String> = ArrayList(),
+        var documentId: String = ""
+
 
 ):Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.createStringArrayList()!!
+        parcel.createStringArrayList()!!,
+        parcel.readString()!!
     ) {
     }
 
@@ -23,6 +27,7 @@ data class Board(
         parcel.writeString(image)
         parcel.writeString(createdBy)
         parcel.writeStringList(assignedTo)
+        parcel.writeString(documentId)
     }
 
     override fun describeContents(): Int {

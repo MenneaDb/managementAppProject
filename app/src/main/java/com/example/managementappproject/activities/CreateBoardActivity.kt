@@ -4,9 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -14,7 +12,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.example.managementappproject.R
-import com.example.managementappproject.firebase.FirestoreClass
+import com.example.managementappproject.firebase.FireStoreClass
 import com.example.managementappproject.models.Board
 import com.example.managementappproject.utils.Constants
 import com.google.firebase.storage.FirebaseStorage
@@ -72,7 +70,7 @@ class CreateBoardActivity : BaseActivity() {
             assignedUserArrayList
         )
         // pass the info to FireStore class that execute the actual creation of the collection inside the cloud
-        FirestoreClass().createBoard(this, board)
+        FireStoreClass().createBoard(this, board)
     }
 
     // upload the board image to the storage

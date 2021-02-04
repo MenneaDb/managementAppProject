@@ -84,6 +84,6 @@
     <dimen name="item_board_name_txtSize">18sp</dimen>
     <dimen name="item_board_created_by_txtSize">14sp</dimen>
     <dimen name="item_board_divider_marginTop">5dp</dimen>
-    <dimen name="item_board_divider_height">0.3dp</dimen>
+    <dimen name="item_board_divider_height">0.5dp</dimen>
 
 </resources>

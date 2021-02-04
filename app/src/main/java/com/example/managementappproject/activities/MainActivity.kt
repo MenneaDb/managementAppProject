@@ -5,16 +5,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import androidx.core.view.GravityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.managementappproject.R
-import com.example.managementappproject.firebase.FirestoreClass
+import com.example.managementappproject.adapters.BoardItemsAdapter
+import com.example.managementappproject.firebase.FireStoreClass
+import com.example.managementappproject.models.Board
 import com.example.managementappproject.models.User
 import com.example.managementappproject.utils.Constants
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -35,14 +40,38 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
            When one of the buttons is clicked, the compiler will execute the logic this class*/
         nav_view.setNavigationItemSelectedListener(this)
 
-        /* we call this method before the next one because is the one that interact with a method from the FireStore class
-           and load the data from the user to this activity */
-        FirestoreClass().loadUserData(this@MainActivity)
+        /** we call this method before the next one because is the one that interact with a method from the FireStore class
+           and load the data from the user to this activity. We also want to load the boards, in this case we don't have to
+           load the board every time we change activity. */
+        FireStoreClass().loadUserData(this@MainActivity, true)
 
         fab_create_board.setOnClickListener{
             val intent = Intent(this, CreateBoardActivity::class.java)
             intent.putExtra(Constants.NAME, mUserName)
             startActivity(intent)
+        }
+    }
+
+    /** new method to populate the board - create the Board inside the UI. We will download the list
+       inside the FireStoreClass and use it to populate this method and display the boardList inside
+       the recyclerView */
+    fun populateBoardsListToUI(boardList: ArrayList<Board>){
+        hideProgressDialog()
+        // if the list contain elements .. > 0 we set these values fot it
+        if (boardList.size > 0){
+            rv_boards_list.visibility = View.VISIBLE
+            tv_no_boards_available.visibility = View.GONE
+
+            rv_boards_list.layoutManager = LinearLayoutManager(this@MainActivity)
+            rv_boards_list.setHasFixedSize(true)
+
+            // refer to the adapter and assign it to the board lists
+            val adapter = BoardItemsAdapter(this, boardList)
+            rv_boards_list.adapter = adapter
+        }else{
+            // if the board list is empty we don't want to display it
+            rv_boards_list.visibility = View.GONE
+            tv_no_boards_available.visibility = View.VISIBLE
         }
     }
 
@@ -77,7 +106,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
-    fun updateNavigationUserDetails(user: User){
+    fun updateNavigationUserDetails(user: User, readBoardsList: Boolean){
 
         mUserName = user.name
 
@@ -91,12 +120,19 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         //set the txtView of the nav_menu with the name of the specific user
         tv_username.text = user.name
+
+        // I want to load the BoardsList if the condition is set TRUE
+        if (readBoardsList){
+            showProgressDialog(resources.getString(R.string.please_wait))
+            FireStoreClass().getBoardsList(this@MainActivity)
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == MY_PROFILE_REQUEST_CODE){
-            FirestoreClass().loadUserData(this)
+            FireStoreClass().loadUserData(this)
         }else{
             Log.e("Cancelled", "Cancelled")
         }

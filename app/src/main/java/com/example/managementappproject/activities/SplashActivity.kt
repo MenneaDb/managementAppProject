@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
 import com.example.managementappproject.R
-import com.example.managementappproject.firebase.FirestoreClass
+import com.example.managementappproject.firebase.FireStoreClass
 import kotlinx.android.synthetic.main.activity_splash.*
 
  @Suppress("DEPRECATION")
@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.activity_splash.*
          *  we destroy the activity and the user can't come back to it.*/
         Handler().postDelayed({
             // here we can check if the currentUserID is not null and send the user directly to MainActivity
-            var currentUserID = FirestoreClass().getCurrentUserId()
+            val currentUserID = FireStoreClass().getCurrentUserId()
             if (currentUserID.isNotEmpty()){
                 startActivity(Intent(this@SplashActivity, MainActivity::class.java))
             }else{

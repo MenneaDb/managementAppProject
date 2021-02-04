@@ -5,7 +5,7 @@ import android.text.TextUtils
 import android.view.WindowManager
 import android.widget.Toast
 import com.example.managementappproject.R
-import com.example.managementappproject.firebase.FirestoreClass
+import com.example.managementappproject.firebase.FireStoreClass
 import com.example.managementappproject.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -80,7 +80,7 @@ class SignUpActivity : BaseActivity() {
                         // we don't need to signOut from here anymore but I need to create a new user.
                         val user = User(firebaseUser.uid, name, registeredEmail)
                         // now we can pass the user to the registerUser method of the FireStore class
-                        FirestoreClass().registerUser(this@SignUpActivity, user)
+                        FireStoreClass().registerUser(this@SignUpActivity, user)
                     } else {
                         Toast.makeText(
                             this,

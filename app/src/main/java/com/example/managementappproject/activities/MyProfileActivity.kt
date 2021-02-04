@@ -5,17 +5,14 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
-import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.example.managementappproject.R
-import com.example.managementappproject.firebase.FirestoreClass
+import com.example.managementappproject.firebase.FireStoreClass
 import com.example.managementappproject.models.User
 import com.example.managementappproject.utils.Constants
 import com.google.firebase.storage.FirebaseStorage
@@ -38,7 +35,7 @@ class MyProfileActivity : BaseActivity() {
         setUpActionBar()
 
         // we need a method to get the existing data from the logged in user and show it in this activity
-        FirestoreClass().loadUserData(this@MyProfileActivity)
+        FireStoreClass().loadUserData(this@MyProfileActivity)
 
         iv_profileUser_image.setOnClickListener {
             // condition to check if the user granted the permission to read from the external storage
@@ -161,7 +158,7 @@ class MyProfileActivity : BaseActivity() {
 
         }
 
-            FirestoreClass().updateUserProfileData(this@MyProfileActivity, userHashMap)
+            FireStoreClass().updateUserProfileData(this@MyProfileActivity, userHashMap)
 
     }
 
