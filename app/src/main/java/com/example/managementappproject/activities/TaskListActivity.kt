@@ -2,9 +2,12 @@ package com.example.managementappproject.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.managementappproject.R
+import com.example.managementappproject.adapters.TaskListItemsAdapter
 import com.example.managementappproject.firebase.FireStoreClass
 import com.example.managementappproject.models.Board
+import com.example.managementappproject.models.Task
 import com.example.managementappproject.utils.Constants
 import kotlinx.android.synthetic.main.activity_task_list.*
 
@@ -38,6 +41,18 @@ class TaskListActivity : BaseActivity() {
     fun boardDetails(board: Board){
         hideProgressDialog()
         setUpActionBar(board.name) // display the title of each board the user select
+        // here we setup the actionbar but we also need to load all of the tasks
+        val addTaskList = Task(resources.getString(R.string.add_list))
+        // now we can add this taskLst to our taskList
+        board.taskList.add(addTaskList)
+
+        rv_task_list.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+        rv_task_list.setHasFixedSize(true)
+
+        // create adapter and assign it to rv_task_list
+        val adapter = TaskListItemsAdapter(this, board.taskList)
+        rv_task_list.adapter = adapter
 
     }
 }
