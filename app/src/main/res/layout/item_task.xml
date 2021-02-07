@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Everything is displayed at the right time -->
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -31,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="@dimen/task_item_cv_elevation"
+            android:layout_margin="@dimen/task_item_cv_margin"
             android:visibility="gone"
             app:cardCornerRadius="@dimen/task_item_cv_corner_radius"
             tools:visibility="visible">
@@ -198,6 +200,7 @@
                         android:layout_height="wrap_content"
                         android:background="?attr/selectableItemBackground"
                         android:contentDescription="@string/image_contentDescription"
+                        android:padding="@dimen/task_item_image_btn_padding"
                         android:src="@drawable/ic_cancel" />
 
                     <EditText
