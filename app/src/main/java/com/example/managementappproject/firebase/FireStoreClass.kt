@@ -35,9 +35,8 @@ class FireStoreClass {
                 .set(userInfo, SetOptions.merge())
                 .addOnSuccessListener{
                     activity.userRegisteredSuccess()
-                }.addOnFailureListener{
-                    e->
-                    Log.e(activity.javaClass.simpleName,"Error writing document")
+                }.addOnFailureListener{ e->
+                    Log.e(activity.javaClass.simpleName,"Error writing document", e)
                 }
     }
 
@@ -53,16 +52,11 @@ class FireStoreClass {
                 val board = document.toObject(Board::class.java)!! // 1st we create a Board Object
                 board.documentId = document.id // we get the unique identifier of the board we got
                 activity.boardDetails(board) // we only pass the board
-
-                // we get the boardDetails and we pass the document that we loaded to a Board Object
-                activity.boardDetails(document.toObject(Board::class.java)!!)
-
             }.addOnFailureListener {
                 e ->
                 activity.hideProgressDialog()
                 Log.e(activity.javaClass.simpleName, "Error while creating a board", e)
             }
-
     }
 
     fun createBoard(activity: CreateBoardActivity, board: Board){
@@ -137,11 +131,9 @@ class FireStoreClass {
                 Log.i(activity.javaClass.simpleName, "Profile Data updated successfully!")
                 Toast.makeText(activity, "Profile updated successfully!", Toast.LENGTH_SHORT).show()
                 activity.profileUpdateSuccess()
-            }.addOnFailureListener{
-                e->
+            }.addOnFailureListener{ e->
                 activity.hideProgressDialog()
                 Log.e(activity.javaClass.simpleName, "Error while creating a board", e)
-                Toast.makeText(activity, "Error when updating the profile", Toast.LENGTH_SHORT).show()
             }
 
     }
@@ -158,33 +150,34 @@ class FireStoreClass {
                 .document(getCurrentUserId())
                 .get()
                 .addOnSuccessListener{ document ->
+                    Log.e(activity.javaClass.simpleName, document.toString())
                     // we want to  store the document we get and make it as Object of the User class.
-                    val loggedInUser = document.toObject(User::class.java)
+                    val loggedInUser = document.toObject(User::class.java)!!
                     // now I can signIn the user and use a new method from signInActivity to execute it.
-                    if (loggedInUser != null) {
-                        /* it will works accordingly with the activity that will call the method, in this way we don't have to
+                    /* it will works accordingly with the activity that will call the method, in this way we don't have to
                            reuse the same code and do all these tasks here by reusing the user object we got from the database */
-                        when (activity) {
-                            is SignInActivity -> {
-                                activity.signInSuccess(loggedInUser)
-                            }
-                            is MainActivity -> {
-                                activity.updateNavigationUserDetails(loggedInUser, readBoardsList) // we only want to read the boards in the Main Activity, only  if is necessary
-                            }
-                            is MyProfileActivity -> {
-                                activity.setUserDataInUI(loggedInUser)
-                            }
-                            // I want to know if I need to read the List or I shouldn't, this is why we use the boolean value
+                    when (activity) {
+                        is SignInActivity -> {
+                            activity.signInSuccess(loggedInUser)
                         }
+                        is MainActivity -> {
+                            activity.updateNavigationUserDetails(loggedInUser, readBoardsList) // we only want to read the boards in the Main Activity, only  if is necessary
+                        }
+                        is MyProfileActivity -> {
+                            activity.setUserDataInUI(loggedInUser)
+                        }
+                        // I want to know if I need to read the List or I shouldn't, this is why we use the boolean value
                     }
-                }.addOnFailureListener{
-                        e->
+                }.addOnFailureListener{ e->
                 // we need to hide the activity
                 when (activity) {
                     is SignInActivity -> {
                         activity.hideProgressDialog()
                     }
                     is MainActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                    is MyProfileActivity -> {
                         activity.hideProgressDialog()
                     }
                 }

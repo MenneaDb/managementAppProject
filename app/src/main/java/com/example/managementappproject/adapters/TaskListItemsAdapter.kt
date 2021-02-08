@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.managementappproject.R
+import com.example.managementappproject.activities.TaskListActivity
 import com.example.managementappproject.models.Task
 import kotlinx.android.synthetic.main.item_task.view.*
 
@@ -39,7 +41,7 @@ open class TaskListItemsAdapter(private val context: Context, private var list: 
             if (position == list.size - 1) {
                 holder.itemView.tv_add_task_list.visibility = View.VISIBLE
                 holder.itemView.ll_task_item.visibility = View.GONE
-            }else{
+            } else {
                 // if we have an entry in our list we want to display only ll_task_item
                 holder.itemView.tv_add_task_list.visibility = View.GONE
                 holder.itemView.ll_task_item.visibility = View.VISIBLE
@@ -60,11 +62,17 @@ open class TaskListItemsAdapter(private val context: Context, private var list: 
             }
 
             holder.itemView.ib_done_list_name.setOnClickListener {
-                // TODO create entry in DB and display the taskList but 1st we need a method that add or update a taskList
+                // create entry in DB and display the taskList
+                val listName = holder.itemView.et_task_list_name.text.toString() // we get the text that is entered to this view when we press the btn
+                // we need to check if the listName exist to check some conditions
+                if (listName.isNotEmpty()){
+                    if (context is TaskListActivity){ // if this is the case
+                        context.createTaskList(listName) // context from the taskListActivity and we pass the listName to it and use this method
+                    }
+                  }else{ // if it is empty we show a Toast.message to the user if he didn't enter a title
+                      Toast.makeText(context, "Please Enter List Name.", Toast.LENGTH_SHORT).show()
+                }
             }
-
-
-
         }
     }
 
