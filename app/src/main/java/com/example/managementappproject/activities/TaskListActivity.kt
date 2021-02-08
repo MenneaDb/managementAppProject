@@ -89,4 +89,18 @@ class TaskListActivity : BaseActivity() {
         // now we can pass the board that we just created to the addUpdateTaskList() method
         FireStoreClass().addUpdateTaskList(this@TaskListActivity, mBoardDetails)
     }
+
+    // method to update the taskList, we need to know the current name and the task we need to update
+    fun updateTaskList(position: Int, listName: String, model: Task){
+        // we need to create the task and know who created it
+        val task = Task(listName, model.createdBy)
+        // check the taskList at the position given
+        mBoardDetails.taskList[position] = task
+        // remove the old one
+        mBoardDetails.taskList.removeAt(mBoardDetails.taskList.size - 1)
+
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FireStoreClass().addUpdateTaskList(this@TaskListActivity, mBoardDetails)
+    }
+
 }

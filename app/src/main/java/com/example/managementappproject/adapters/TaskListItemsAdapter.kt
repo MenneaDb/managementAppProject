@@ -73,6 +73,22 @@ open class TaskListItemsAdapter(private val context: Context, private var list: 
                       Toast.makeText(context, "Please Enter List Name.", Toast.LENGTH_SHORT).show()
                 }
             }
+            // editing and deleting lists
+            holder.itemView.ib_edit_list_name.setOnClickListener {
+                holder.itemView.et_edit_task_list_name.setText(model.title) // we set the text with the title we get from the model
+                holder.itemView.ll_title_view.visibility = View.GONE
+                holder.itemView.cv_edit_task_list_name.visibility = View.VISIBLE
+            }
+
+            holder.itemView.ib_close_editable_view.setOnClickListener {
+                holder.itemView.ll_title_view.visibility = View.VISIBLE
+                holder.itemView.cv_edit_task_list_name.visibility = View.GONE
+            }
+
+            // we pass a functionality to make something happen
+            holder.itemView.ib_done_edit_list_name.setOnClickListener{
+                // TODO done editing implement
+            }
         }
     }
 
