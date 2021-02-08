@@ -24,6 +24,8 @@ object Constants {
     const val READ_STORAGE_PERMISSION_CODE = 1
     const val PICK_IMAGE_REQUEST_CODE = 2
 
+    const val TASK_LIST: String = "taskList"
+
     /** We need to reuse these methods inside different activities(MyProfile and CreateBoard), that is why pass activity
         as parameter in order to know from which activity we should do that */
     fun showImageChooser(activity: Activity){

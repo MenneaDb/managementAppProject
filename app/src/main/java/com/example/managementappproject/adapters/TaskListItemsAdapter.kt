@@ -44,6 +44,27 @@ open class TaskListItemsAdapter(private val context: Context, private var list: 
                 holder.itemView.tv_add_task_list.visibility = View.GONE
                 holder.itemView.ll_task_item.visibility = View.VISIBLE
             }
+
+            // we want to set a text for the taskList title, we get it from the title of the model that is passed
+            holder.itemView.tv_task_list_title.text = model.title
+            // we need to set also a OnClickListener for it(not the title, for the actual list)
+            holder.itemView.tv_add_task_list.setOnClickListener {
+                holder.itemView.tv_add_task_list.visibility = View.GONE
+                holder.itemView.cv_add_task_list_name.visibility = View.VISIBLE // when the user click on this btn we want to show this View instead of the btn
+            }
+
+            // depending of which btn we press, we'll have different reactions displayed in the UI.
+            holder.itemView.ib_close_list_name.setOnClickListener {
+                holder.itemView.tv_add_task_list.visibility = View.VISIBLE
+                holder.itemView.cv_add_task_list_name.visibility = View.GONE
+            }
+
+            holder.itemView.ib_done_list_name.setOnClickListener {
+                // TODO create entry in DB and display the taskList but 1st we need a method that add or update a taskList
+            }
+
+
+
         }
     }
 

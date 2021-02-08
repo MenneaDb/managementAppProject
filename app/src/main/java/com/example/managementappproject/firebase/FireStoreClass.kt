@@ -1,6 +1,7 @@
 package com.example.managementappproject.firebase
 
 import android.app.Activity
+import android.graphics.drawable.Drawable
 import android.util.Log
 import android.widget.Toast
 import com.example.managementappproject.activities.*
@@ -48,6 +49,12 @@ class FireStoreClass {
                 document->
                 Log.i(activity.javaClass.simpleName, document.toString())
 
+                // we also need the ID of the document( of the board itself)
+                val board = document.toObject(Board::class.java)!! // 1st we create a Board Object
+                board.documentId = document.id // we get the unique identifier of the board we got
+                activity.boardDetails(board) // we only pass the board
+
+                // we get the boardDetails and we pass the document that we loaded to a Board Object
                 activity.boardDetails(document.toObject(Board::class.java)!!)
 
             }.addOnFailureListener {
@@ -97,6 +104,27 @@ class FireStoreClass {
                     e ->
                     activity.hideProgressDialog()
                     Log.e(activity.javaClass.simpleName, "Error while creating a board", e)
+                }
+    }
+
+    // method to update the taskList
+    fun addUpdateTaskList(activity: TaskListActivity, board: Board){
+        // we use an hashMap to accept other values we can add later (key->String, value->Any)
+        val taskListHashMap = HashMap<String, Any>()
+        // assign values and store to it at the position we pass to it [Constants.TASK_LIST] the board.taskList
+        taskListHashMap[Constants.TASK_LIST] = board.taskList
+        //create entry in the database
+        mFireStore.collection(Constants.BOARDS)
+                .document(board.documentId) // we pass the id that already exist and get the value related to it
+                .update(taskListHashMap)
+                .addOnSuccessListener {
+                    Log.i(activity.javaClass.simpleName, "TaskList updated successfully.")
+                    activity.addUpdateTaskListSuccess()
+
+                }.addOnFailureListener {
+                    exception->
+                    activity.hideProgressDialog()
+                    Log.e(activity.javaClass.simpleName, "Error while creating a board.", exception)
                 }
     }
 
