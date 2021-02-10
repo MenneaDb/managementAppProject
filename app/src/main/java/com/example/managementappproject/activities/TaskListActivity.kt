@@ -90,7 +90,7 @@ class TaskListActivity : BaseActivity() {
         FireStoreClass().addUpdateTaskList(this@TaskListActivity, mBoardDetails)
     }
 
-    // method to update the taskList, we need to know the current name and the task we need to update
+    // method to update and EDIT the taskList, we need to know the current name and the task we need to update
     fun updateTaskList(position: Int, listName: String, model: Task){
         // we need to create the task and know who created it
         val task = Task(listName, model.createdBy)
@@ -102,5 +102,15 @@ class TaskListActivity : BaseActivity() {
         showProgressDialog(resources.getString(R.string.please_wait))
         FireStoreClass().addUpdateTaskList(this@TaskListActivity, mBoardDetails)
     }
+
+    // method to delete an existing task( we set the position as parameter to know at which position we need to delete something)
+    fun deleteTaskList(position: Int){
+        mBoardDetails.taskList.removeAt(position)
+        mBoardDetails.taskList.removeAt(mBoardDetails.taskList.size - 1)
+
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FireStoreClass().addUpdateTaskList(this@TaskListActivity, mBoardDetails) // update the whole board after we delete a taskList from it
+    }
+
 
 }

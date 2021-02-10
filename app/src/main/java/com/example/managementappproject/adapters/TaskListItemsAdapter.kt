@@ -1,5 +1,6 @@
 package com.example.managementappproject.adapters
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.res.Resources
 import android.view.LayoutInflater
@@ -87,13 +88,52 @@ open class TaskListItemsAdapter(private val context: Context, private var list: 
 
             // we pass a functionality to make something happen
             holder.itemView.ib_done_edit_list_name.setOnClickListener{
-                // TODO done editing implement
+                // we need the listName and we get it from this itemView
+                val listName = holder.itemView.et_edit_task_list_name.text.toString()
+                // conditions for the case
+                if (listName.isNotEmpty()){
+                    if (context is TaskListActivity){
+                        context.updateTaskList(position, listName, model) // if the title is not empty we update the taskList
+                    } //(position from onBindViewHolder and model based on the position, listName from editText we used here).
+                }else{
+                    Toast.makeText(context, "Please Enter a List Name.", Toast.LENGTH_SHORT).show() // otherwise
+                }
+            }
+            // implementing the code to delete a taskList
+            holder.itemView.ib_delete_list.setOnClickListener{
+                alertDialogForDeleteList(position, model.title) // inside the method we make the actual deleting
             }
         }
     }
 
     override fun getItemCount(): Int {
         return list.size
+    }
+
+    private fun alertDialogForDeleteList(position: Int, title: String){
+        val builder = AlertDialog.Builder(context)
+        // set title for alert dialog
+        builder.setTitle("Alert")
+        // set message for alert dialog
+        builder.setMessage("Are you sure you want to delete $title ?")
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
+        // performing positive icon
+        builder.setPositiveButton("Yes") { dialogInterface, which ->
+            dialogInterface.dismiss() // Dialog will be dismissed
+
+            if (context is TaskListActivity){
+                context.deleteTaskList(position)
+            }
+        }
+        // performing negative action
+        builder.setNegativeButton("No") { dialogInterface, which ->
+            dialogInterface.dismiss() // Dialog will be dismissed
+        }
+        // Create the AlertDialog
+        val alertDialog: AlertDialog = builder.create()
+        // Set other dialog properties
+        alertDialog.setCancelable(false) // Will not allow user to cancel after clicking on remaining screen area.
+        alertDialog.show() // show the dialog to UI
     }
 
     /** we don't want the recyclerView to get the 100% of the layout. we need a method to calculate the width in
