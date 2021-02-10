@@ -103,6 +103,27 @@ open class TaskListItemsAdapter(private val context: Context, private var list: 
             holder.itemView.ib_delete_list.setOnClickListener{
                 alertDialogForDeleteList(position, model.title) // inside the method we make the actual deleting
             }
+            // implementing the tv_add_card functionality to show the cv_add_card View and add an element to the list
+            holder.itemView.tv_add_card.setOnClickListener{
+                holder.itemView.tv_add_card.visibility = View.GONE
+                holder.itemView.cv_add_card.visibility = View.VISIBLE
+            }
+            // implement the functionality to cancel the process of adding a new element
+            holder.itemView.ib_close_card_name.setOnClickListener{
+                holder.itemView.tv_add_card.visibility = View.VISIBLE
+                holder.itemView.cv_add_card.visibility = View.GONE
+            }
+            // implement the functionality where the actual creation of the card happens
+            holder.itemView.ib_done_card_name.setOnClickListener{
+                val cardName = holder.itemView.et_card_name.text.toString()
+                if (cardName.isNotEmpty()){
+                    if (context is TaskListActivity){
+                        context.addCardToTaskList(position, cardName)// position from onBindViewHolder, cardName from the TextView et_card_name
+                    }
+                } else {
+                    Toast.makeText(context, "Please Enter a Card Name", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 

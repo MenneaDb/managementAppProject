@@ -6,16 +6,19 @@ import android.os.Parcelable
 // each board can have multiple tasks
 data class Task (
     var title: String = "",
-    var createdBy: String = ""
+    val createdBy: String = "",
+    val cards: ArrayList<Card> = ArrayList() // implementing cards to let the user add it to the taskList
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
-        parcel.readString()!!
+        parcel.readString()!!,
+        parcel.createTypedArrayList(Card.CREATOR)!!
     )
 
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(title)
-        parcel.writeString(createdBy)
+    override fun writeToParcel(parcel: Parcel, flags: Int) = with(parcel) {
+        writeString(title)
+        writeString(createdBy)
+        writeTypedList(cards)
     }
 
     override fun describeContents() = 0

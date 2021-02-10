@@ -8,6 +8,7 @@ import com.example.managementappproject.R
 import com.example.managementappproject.adapters.TaskListItemsAdapter
 import com.example.managementappproject.firebase.FireStoreClass
 import com.example.managementappproject.models.Board
+import com.example.managementappproject.models.Card
 import com.example.managementappproject.models.Task
 import com.example.managementappproject.utils.Constants
 import com.google.firebase.firestore.remote.FirestoreChannel
@@ -110,6 +111,35 @@ class TaskListActivity : BaseActivity() {
 
         showProgressDialog(resources.getString(R.string.please_wait))
         FireStoreClass().addUpdateTaskList(this@TaskListActivity, mBoardDetails) // update the whole board after we delete a taskList from it
+    }
+
+    fun addCardToTaskList(position: Int, cardName: String){
+        // remove the last item
+        mBoardDetails.taskList.removeAt(mBoardDetails.taskList.size - 1)
+
+        // create a new array and we assign the getCurrentUserId that will give us the assigned users(Card class var - all the people that the card is assigned to)
+        val cardAssignedUsersList: ArrayList<String> = ArrayList()
+        cardAssignedUsersList.add(FireStoreClass().getCurrentUserId())
+
+        /* create a card based on the cardName we get from the attribute we pass to this method and getTheCurrentUser who created
+           it and store to this var to have it always available. we also need the cardAssigned UsersList(with just the creator in it) */
+        val card = Card(cardName, FireStoreClass().getCurrentUserId(), cardAssignedUsersList)
+
+        // we create a cardList to get the position of the card inside the taskList
+        val cardList = mBoardDetails.taskList[position].cards
+
+        // now we can use this cardList and add the card we just created( if there's nothing, will be the 1st card, this won't be the next card.
+        cardList.add(card)
+
+        // now we can create a Task object and we pass arguments to its parameters
+        val task = Task(mBoardDetails.taskList[position].title, mBoardDetails.taskList[position].createdBy, cardList)
+
+        // now we can assign the task we just created as the task for the current position (updated task with latest cardsList)
+        mBoardDetails.taskList[position] = task
+
+        //show progress and update the taskList, by getting the board(parent of task) we get the task(parent of the card) and the card(all updated together not individually)
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FireStoreClass().addUpdateTaskList(this@TaskListActivity, mBoardDetails)
     }
 
 
