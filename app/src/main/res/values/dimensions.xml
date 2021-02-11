@@ -126,4 +126,18 @@
     <dimen name="item_member_email_textSize">14sp</dimen>
     <dimen name="item_member_divider_height">0.3dp</dimen>
     <dimen name="item_member_divider_marginTop">5dp</dimen>
+
+    <!-- Add Member -->
+    <dimen name="dialog_addMember_cv_elevation">3dp</dimen>
+    <dimen name="dialog_addMember_cv_cornerRadius">3dp</dimen>
+    <dimen name="dialog_addMember_content_padding">10dp</dimen>
+    <dimen name="dialog_addMember_title_padding">5dp</dimen>
+    <dimen name="dialog_addMember_title_textSize">18sp</dimen>
+    <dimen name="dialog_addMember_divider_height">1dp</dimen>
+    <dimen name="dialog_addMember_divider_marginTopBottom">3dp</dimen>
+    <dimen name="dialog_addMember_email_marginTop">10dp</dimen>
+    <dimen name="dialog_addMember_action_layout_height">40dp</dimen>
+    <dimen name="dialog_addMember_action_layout_marginTop">10dp</dimen>
+    <dimen name="dialog_addMember_action_btn_padding">10dp</dimen>
+    <dimen name="dialog_addMember_action_btn_textSize">16sp</dimen>
 </resources>

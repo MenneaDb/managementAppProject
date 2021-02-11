@@ -46,4 +46,9 @@
 
     <!-- Members Activity -->
     <string name="members">Members</string>
+
+    <!-- Menu Add Member -->
+    <string name="add_member">Add Member</string>
+    <string name="cancel">CANCEL</string>
+    <string name="add">ADD</string>
 </resources>
