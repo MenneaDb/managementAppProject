@@ -43,4 +43,7 @@
     <string name="hint_card_name">Card Name</string>
     <string name="title">Title</string>
     <string name="add_list">Add List</string>
+
+    <!-- Members Activity -->
+    <string name="members">Members</string>
 </resources>

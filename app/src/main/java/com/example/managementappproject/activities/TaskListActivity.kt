@@ -1,8 +1,11 @@
 package com.example.managementappproject.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.managementappproject.R
 import com.example.managementappproject.adapters.TaskListItemsAdapter
@@ -32,6 +35,21 @@ class TaskListActivity : BaseActivity() {
 
         showProgressDialog(resources.getString(R.string.please_wait))
         FireStoreClass().getBoardDetails(this@TaskListActivity, boardDocumentId)
+    }
+
+    // method to inflate the new menu we just created
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_members, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.action_members ->{
+                startActivity(Intent(this@TaskListActivity, MembersActivity::class.java))
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun setUpActionBar(){
