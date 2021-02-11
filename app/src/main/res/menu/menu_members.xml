@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_members"
-        android:icon="@drawable/ic_members_menu"
         android:orderInCategory="100"
         android:title="@string/members"
         app:showAsAction="never" />

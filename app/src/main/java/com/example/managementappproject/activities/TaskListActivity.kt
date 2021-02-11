@@ -46,7 +46,12 @@ class TaskListActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.action_members ->{
-                startActivity(Intent(this@TaskListActivity, MembersActivity::class.java))
+                val intent = Intent(this@TaskListActivity, MembersActivity::class.java)
+                // pass extra details with the intent to the other activity
+                intent.putExtra(Constants.BOARD_DETAIL, mBoardDetails) // this only works because mBoardDetails is of type Board that is Parcelable( we are passing a whole object because it's made for a string and we can get extra info from it)
+                startActivity(intent) // we need to catch it inside the other activity
+
+
             }
         }
         return super.onOptionsItemSelected(item)
