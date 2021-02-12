@@ -1,5 +1,6 @@
  package com.example.managementappproject.activities
 
+import android.app.Activity
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -22,6 +23,8 @@ class MembersActivity : BaseActivity() {
     private lateinit var mBoardDetails: Board
     // use it to add a list of member on the UI
     private lateinit var mAssignedMembersList: ArrayList<User>
+    // to check if the were made any changes or not and I don't want to reload the activity
+    private var anyChangeMade: Boolean = false
 
 
 
@@ -113,13 +116,22 @@ class MembersActivity : BaseActivity() {
         dialog.show() // we need to make sure that the dialog is shown at some point
     }
 
-    /* new method to add the member we get from the method memberDetails to the mAssignedMembersList
+    override fun onBackPressed() {
+        if (anyChangeMade){
+            setResult(Activity.RESULT_OK)
+        }
+        super.onBackPressed()
+    }
+
+    /** new method to add the member we get from the method memberDetails to the mAssignedMembersList
        (we just set it and assigned it to the existing list for now) - this method is called only when
         the assigning of new members is successful */
     fun memberAssignSuccess(user: User){
         hideProgressDialog()
         // we want to make sure that the user is passed to this method is added to the mAssignedMembersList
         mAssignedMembersList.add(user)
+        // here we can check if something changed in the membersList because in this is method is where is performed this task
+        anyChangeMade = true
         // set up the memberList
         setUpMembersList(mAssignedMembersList) // we need to use this method to update the UI of the MembersList when a new member is added to it
 

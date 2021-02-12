@@ -49,7 +49,8 @@ class TaskListActivity : BaseActivity() {
                 val intent = Intent(this@TaskListActivity, MembersActivity::class.java)
                 // pass extra details with the intent to the other activity
                 intent.putExtra(Constants.BOARD_DETAIL, mBoardDetails) // this only works because mBoardDetails is of type Board that is Parcelable( we are passing a whole object because it's made for a string and we can get extra info from it)
-                startActivity(intent) // we need to catch it inside the other activity
+                startActivityForResult(intent, MEMBERS_REQUEST_CODE) // we need to catch it inside the other activity
+                return true
 
 
             }
@@ -163,6 +164,11 @@ class TaskListActivity : BaseActivity() {
         //show progress and update the taskList, by getting the board(parent of task) we get the task(parent of the card) and the card(all updated together not individually)
         showProgressDialog(resources.getString(R.string.please_wait))
         FireStoreClass().addUpdateTaskList(this@TaskListActivity, mBoardDetails)
+    }
+
+    // we use it when we startActivity for Result when the user press to Member and go back in the taskList menu
+    companion object{
+        const val MEMBERS_REQUEST_CODE : Int = 13
     }
 
 
