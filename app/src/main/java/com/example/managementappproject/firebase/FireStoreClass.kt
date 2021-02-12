@@ -4,6 +4,7 @@ import android.app.Activity
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.widget.Toast
+import com.example.managementappproject.R
 import com.example.managementappproject.activities.*
 import com.example.managementappproject.models.Board
 import com.example.managementappproject.models.User
@@ -230,6 +231,53 @@ class FireStoreClass {
                 activity.hideProgressDialog()
                 Log.e(activity.javaClass.simpleName, "Error while creating a member's list", e)
             }
+    }
+
+    // method to get the member details
+    fun getMemberDetails(activity: MembersActivity, email: String){
+        // get data from database
+        mFireStore.collection(Constants.USERS)
+                .whereEqualTo(Constants.EMAIL, email) // check if the email exist in the user collection
+                .get()
+                .addOnSuccessListener {
+                    // we add the existing documents
+                    document ->
+                    if (document.documents.size > 0) { // if there's at least 1 document
+                        // we create a User object from the document - we only pass the position 0 because the email will be unique, a user can't have 2 profile with the same email
+                        val user = document.documents[0].toObject(User::class.java)!!
+                        activity.memberDetails(user) // still to implement the method
+                    } else { // if there's no document
+                        activity.hideProgressDialog()
+                        activity.showErrorSnackBar("No such member found")
+                    }
+                }
+                .addOnFailureListener { e ->
+                    activity.hideProgressDialog()
+                    Log.e(activity.javaClass.simpleName, "Error while getting user details", e)
+
+                }
+    }
+    /** we need to add new members to the memberList of a Task( they are not assigned to the board), we need the member
+    and the board of where we want to assign him/her we need a HashMap to update the board with the new member. 1st
+    we need the board to assign something to it now that we assign it to the board, we need to update it to the database.
+    assignedTo-HasMap is created because there is a var of the board inside the database, arrayList of string of Ids of
+    users that are assigned to a task */
+    fun assignMemberToBoard(activity: MembersActivity, board: Board, user: User){
+        val assignedToHashMap = HashMap<String, Any>()
+        assignedToHashMap[Constants.ASSIGNED_TO] = board.assignedTo
+        // update the database
+        mFireStore.collection(Constants.BOARDS)
+                .document(board.documentId)// we only want to update the board where the user has entered a new member to it
+                .update(assignedToHashMap) // it is required an hashMap because this is the type we have related to the var in the database
+                .addOnSuccessListener{
+                    // if the update went well
+                    activity.memberAssignSuccess(user) // user that we get when we call the main method, here we call the method add a member to the list
+                }
+                .addOnFailureListener{
+                    e->
+                    activity.hideProgressDialog()
+                    Log.e(activity.javaClass.simpleName, "Error while creating a board", e)
+                }
     }
 
 }
