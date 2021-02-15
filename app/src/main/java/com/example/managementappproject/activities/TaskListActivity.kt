@@ -66,7 +66,11 @@ class TaskListActivity : BaseActivity() {
         about this specific card and not about any card. We can enable the click event to move to the other activity
         from the adapter(where we work with the card view behaviours) */
     fun cardDetails(taskListPosition: Int, cardPosition: Int) {
-        startActivity(Intent(this@TaskListActivity, CardDetailsActivity::class.java))
+        val intent = Intent(this@TaskListActivity, CardDetailsActivity::class.java)
+        intent.putExtra(Constants.BOARD_DETAIL, mBoardDetails) // we send the board
+        intent.putExtra(Constants.TASK_LIST_ITEM_POSITION, taskListPosition)
+        intent.putExtra(Constants.CARD_LIST_ITEM_POSITION, cardPosition)
+        startActivity(intent) // we want to get these info at the CardDetailsActivity
     }
 
 
