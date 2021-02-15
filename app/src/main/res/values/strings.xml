@@ -52,4 +52,11 @@
     <string name="cancel">CANCEL</string>
     <string name="add">ADD</string>
 
+    <!-- Card Details Activity -->
+    <string name="label_color">Label Color</string>
+    <string name="select_color">Select Color</string>
+    <string name="select_members">Select Members</string>
+    <string name="due_date">Due Date</string>
+    <string name="select_due_date">Select Due Date</string>
+
 </resources>
