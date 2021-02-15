@@ -7,6 +7,7 @@ import android.widget.Toast
 import com.example.managementappproject.R
 import com.example.managementappproject.activities.*
 import com.example.managementappproject.models.Board
+import com.example.managementappproject.models.Card
 import com.example.managementappproject.models.User
 import com.example.managementappproject.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
@@ -102,8 +103,8 @@ class FireStoreClass {
                 }
     }
 
-    // method to update the taskList
-    fun addUpdateTaskList(activity: TaskListActivity, board: Board){
+    // method to update the taskList and other activities as well
+    fun addUpdateTaskList(activity: Activity, board: Board){
         // we use an hashMap to accept other values we can add later (key->String, value->Any)
         val taskListHashMap = HashMap<String, Any>()
         // assign values and store to it at the position we pass to it [Constants.TASK_LIST] the board.taskList
@@ -114,10 +115,15 @@ class FireStoreClass {
                 .update(taskListHashMap)
                 .addOnSuccessListener {
                     Log.i(activity.javaClass.simpleName, "TaskList updated successfully.")
+                    if (activity is TaskListActivity)
                     activity.addUpdateTaskListSuccess()
-
+                    else if (activity is CardDetailsActivity)
+                        activity.addUpdateTaskListSuccess()
                 }.addOnFailureListener {
                     exception->
+                if (activity is TaskListActivity)
+                    activity.hideProgressDialog()
+                else if (activity is CardDetailsActivity)
                     activity.hideProgressDialog()
                     Log.e(activity.javaClass.simpleName, "Error while creating a board.", exception)
                 }
