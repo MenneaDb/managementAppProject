@@ -1,5 +1,6 @@
 package com.example.managementappproject.activities
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -22,19 +23,42 @@ class TaskListActivity : BaseActivity() {
 
     // we need to get the boardDetails inside this activity
     private lateinit var mBoardDetails: Board
+    // we need to use the mBoardDocumentId out of the onCreate, we make it global and use it when we call the onActivityResultFunction
+    private lateinit var mBoardDocumentId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_list)
 
         // now we can catch the data from the intent to pass to this activity
-        var boardDocumentId = ""
         if (intent.hasExtra(Constants.DOCUMENT_ID)){
-            boardDocumentId = intent.getStringExtra(Constants.DOCUMENT_ID)!!
+            mBoardDocumentId = intent.getStringExtra(Constants.DOCUMENT_ID)!!
         }
 
         showProgressDialog(resources.getString(R.string.please_wait))
-        FireStoreClass().getBoardDetails(this@TaskListActivity, boardDocumentId)
+        FireStoreClass().getBoardDetails(this@TaskListActivity, mBoardDocumentId)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        // if the conditions are true, RELOAD the whole details
+        if (resultCode == Activity.RESULT_OK && requestCode == MEMBERS_REQUEST_CODE){
+            showProgressDialog(resources.getString(R.string.please_wait))
+            FireStoreClass().getBoardDetails(this@TaskListActivity, mBoardDocumentId)
+        } else {
+            Log.e("Cancelled", "Cancelled")
+        }
+
+        /** We could create more request in order to always get the latest update from the taskList UI.
+         *  This will always give the latest update but it will also create many more request on the database.
+         *  The way we use here is to optimize the app , if we want a better user experience we should load the update
+         *  each time we came back to the taskList UI.
+         *
+         *  override onResume() {
+         *  showProgressDialog(resources.getString(R.string.please_wait))
+            FireStoreClass().getBoardDetails(this@TaskListActivity, mBoardDocumentId)
+            super.onResume()
+            } */
     }
 
     // method to inflate the new menu we just created
