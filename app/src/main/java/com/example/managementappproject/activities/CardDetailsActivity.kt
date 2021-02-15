@@ -2,6 +2,7 @@ package com.example.managementappproject.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import com.example.managementappproject.R
 import com.example.managementappproject.models.Board
 import com.example.managementappproject.utils.Constants
@@ -19,6 +20,9 @@ class CardDetailsActivity : AppCompatActivity() {
 
         getIntentData()
         setUpActionBar()
+        // we want to set this editText with the same name as the title
+        et_name_card_details.setText(mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].name)
+        et_name_card_details.setSelection(et_name_card_details.text.toString().length) // when the user click on it, we set the focus on ending of the length at the end of text
     }
 
     private fun setUpActionBar() {
@@ -32,6 +36,12 @@ class CardDetailsActivity : AppCompatActivity() {
         }
 
         toolbar_card_details_activity.setNavigationOnClickListener{ onBackPressed() }
+    }
+
+    // to inflate the delete_card menu on the UI
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_delete_card, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
     // method to get the intent data

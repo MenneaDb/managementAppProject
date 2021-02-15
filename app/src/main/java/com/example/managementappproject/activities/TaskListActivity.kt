@@ -42,7 +42,7 @@ class TaskListActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         // if the conditions are true, RELOAD the whole details
-        if (resultCode == Activity.RESULT_OK && requestCode == MEMBERS_REQUEST_CODE){
+        if (resultCode == Activity.RESULT_OK && requestCode == MEMBERS_REQUEST_CODE || requestCode == CARD_DETAILS_REQUEST_CODE){ // we add a "or" condition to refresh the detail of the board(either from newMember activity or going back from CardDetailsActivity)
             showProgressDialog(resources.getString(R.string.please_wait))
             FireStoreClass().getBoardDetails(this@TaskListActivity, mBoardDocumentId)
         } else {
@@ -70,7 +70,7 @@ class TaskListActivity : BaseActivity() {
         intent.putExtra(Constants.BOARD_DETAIL, mBoardDetails) // we send the board
         intent.putExtra(Constants.TASK_LIST_ITEM_POSITION, taskListPosition)
         intent.putExtra(Constants.CARD_LIST_ITEM_POSITION, cardPosition)
-        startActivity(intent) // we want to get these info at the CardDetailsActivity
+        startActivityForResult(intent, CARD_DETAILS_REQUEST_CODE) // we want to get these info at the CardDetailsActivity
     }
 
 
@@ -207,6 +207,8 @@ class TaskListActivity : BaseActivity() {
     // we use it when we startActivity for Result when the user press to Member and go back in the taskList menu
     companion object{
         const val MEMBERS_REQUEST_CODE : Int = 13
+        // new const for getResult to don't update constantly the board
+        const val CARD_DETAILS_REQUEST_CODE: Int = 14
     }
 
 
