@@ -133,6 +133,21 @@ open class TaskListItemsAdapter(private val context: Context, private var list: 
             val adapter = CardListItemsAdapter(context, model.cards)
             // assign the adapter
             holder.itemView.rv_card_list.adapter = adapter
+            /* we create a new object of the cardList items adapter ( we want to use the onClick listener from
+               the TaskListActivity and let happen an event for every single card). Here we pass the cardDetails()
+               method to enable the event for a specific card that a user will select */
+            adapter.setOnClickListener(
+                object : CardListItemsAdapter.OnClickListener{
+                    override fun onClick(cardPosition: Int) {
+                        if (context is TaskListActivity){
+                            /* position of the taskList provided as parameter from the onBindViewHolder (related to the taskList)
+                               and the cardPosition provided by the onClick method (related to the cardList) */
+                            context.cardDetails(position, cardPosition)
+                        }
+                    }
+                }
+
+            )
         }
     }
 

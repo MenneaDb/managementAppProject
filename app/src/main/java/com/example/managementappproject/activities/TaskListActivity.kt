@@ -61,6 +61,16 @@ class TaskListActivity : BaseActivity() {
             } */
     }
 
+    /** method to move into the CardDetailsActivity UI, we need to specify the position of which list we want to
+        work with and the position of which card of that list we want to work with because we want to load details
+        about this specific card and not about any card. We can enable the click event to move to the other activity
+        from the adapter(where we work with the card view behaviours) */
+    fun cardDetails(taskListPosition: Int, cardPosition: Int) {
+        startActivity(Intent(this@TaskListActivity, CardDetailsActivity::class.java))
+    }
+
+
+
     // method to inflate the new menu we just created
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_members, menu)

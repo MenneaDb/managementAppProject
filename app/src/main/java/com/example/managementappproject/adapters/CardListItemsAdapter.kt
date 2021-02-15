@@ -14,7 +14,7 @@ open class CardListItemsAdapter (
         private var list: ArrayList<Card>
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
-    private var onClickListener: View.OnClickListener? = null
+    private var onClickListener: OnClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
@@ -28,7 +28,14 @@ open class CardListItemsAdapter (
         val model = list[position]
 
         if (holder is MyViewHolder) {
+            // we set the name of the card depending of which the user will set for it
             holder.itemView.tv_card_name.text = model.name
+            // give to every single card an onClick event
+            holder.itemView.setOnClickListener {
+                if (onClickListener != null){
+                    onClickListener!!.onClick(position) // the position came from the onBindViewHolder method itself
+                }
+            }
         }
     }
 
@@ -40,8 +47,8 @@ open class CardListItemsAdapter (
         this.onClickListener = onClickListener
     }
 
-    interface OnClickListener : View.OnClickListener {
-        fun onClick(position: Int, card: Card)
+    interface OnClickListener {
+        fun onClick(cardPosition: Int)
     }
 
     class MyViewHolder(view: View): RecyclerView.ViewHolder(view)
