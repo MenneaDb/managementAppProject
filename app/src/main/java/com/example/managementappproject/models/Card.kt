@@ -7,7 +7,9 @@ import android.os.Parcelable
 data class Card (
         val name: String = "",
         val createdBy: String = "",
-        val assignedTo: ArrayList<String> = ArrayList() // Array because could be assigned from different people
+        val assignedTo: ArrayList<String> = ArrayList(), // Array because could be assigned from different people
+        val labelColor: String = "" // to add the color selected from the user to a Card
+
         ): Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString()!!,

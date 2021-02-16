@@ -112,7 +112,8 @@ class CardDetailsActivity : BaseActivity() {
         val card = Card(
             et_name_card_details.text.toString(),
             mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].createdBy,
-            mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo
+            mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo,
+            mSelectedColor // store the color in the database as well
         )
 
         mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition] = card // assign the details related to the specific card to our object
@@ -176,7 +177,7 @@ class CardDetailsActivity : BaseActivity() {
                 setColor()
             }
         }
-        // we need to show the list
+        // we need to display the list
         listDialog.show()
     }
 
