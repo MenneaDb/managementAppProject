@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.item_label_color.view.*
 
 class LabelColorListItemsAdapter(private val context: Context,
                                  private var list: ArrayList<String>,
-                                 private var mSelectedColor: String)
+                                 private val mSelectedColor: String)
                                  : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var onItemClickListener: OnItemClickListener? = null

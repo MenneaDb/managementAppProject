@@ -41,15 +41,12 @@ abstract class LabelColorListDialog(
         // set adapter to rvList
         view.rvList.adapter = adapter
         // each adapter need to have an onClickListener
-        adapter!!.onItemClickListener =
-                object : LabelColorListItemsAdapter.OnItemClickListener{
+        adapter!!.onItemClickListener = object : LabelColorListItemsAdapter.OnItemClickListener{
                     // once we click the item we need to select it
                     override fun onClick(position: Int, color: String) {
                         dismiss() // dismiss this dialog
                         onItemSelected(color) // when user click on a color we pass the item selected with the color as string
-
                     }
-
                 }
     }
     /* declared as abstract(it is possible because the class itself is abstract because later we can implement it implement
