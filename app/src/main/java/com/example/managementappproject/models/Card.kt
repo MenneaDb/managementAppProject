@@ -14,13 +14,15 @@ data class Card (
     constructor(parcel: Parcel) : this(
             parcel.readString()!!,
             parcel.readString()!!,
-            parcel.createStringArrayList()!!
+            parcel.createStringArrayList()!!,
+            parcel.readString()!!
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) = with(parcel) {
         writeString(name)
         writeString(createdBy)
         writeStringList(assignedTo)
+        writeString(labelColor)
     }
 
     override fun describeContents() = 0

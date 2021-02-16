@@ -37,6 +37,13 @@ class CardDetailsActivity : BaseActivity() {
         et_name_card_details.setText(mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].name)
         et_name_card_details.setSelection(et_name_card_details.text.toString().length) // when the user click on it, we set the focus on ending of the length at the end of text
 
+        // keep color selected on the UI
+        mSelectedColor = mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].labelColor
+        // if is not empty we set the color
+        if (mSelectedColor.isNotEmpty()) {
+            setColor()
+        }
+
         // trigger the selection of a color to label color
         tv_select_label_color.setOnClickListener{
             labelColorsListDialog()
@@ -167,7 +174,8 @@ class CardDetailsActivity : BaseActivity() {
         val listDialog = object : LabelColorListDialog(
                 this@CardDetailsActivity,
                 colorsList,
-                resources.getString(R.string.str_select_label_color)
+                resources.getString(R.string.str_select_label_color),
+                mSelectedColor
         ){
             // to do once the user select an item
             override fun onItemSelected(color: String) {
