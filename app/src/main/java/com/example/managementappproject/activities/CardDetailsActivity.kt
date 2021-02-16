@@ -67,8 +67,17 @@ class CardDetailsActivity : BaseActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    // method to enable 
+    // method to implement the delete_menu( if we want to implement a menu with 1 or more items we always need to use this method
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // implement features to happen when user click the delete_menu
+        when(item.itemId){
+            R.id.action_delete_card -> {
+                // 1st we pass to the user the dialog to ask again the user is sure about deleting this card in particular
+                alertDialogForDeleteCard(mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].name)
+                return true
+            }
+        }
+
         return super.onOptionsItemSelected(item)
     }
 
@@ -121,7 +130,7 @@ class CardDetailsActivity : BaseActivity() {
         val builder = AlertDialog.Builder(this@CardDetailsActivity)
         builder.setTitle(resources.getString(R.string.alert))
         builder.setMessage(resources.getString(R.string.confirmation_message_to_delete_card, cardName))
-        builder.setIcon(android.R.drawable.ic_dialog_alert)
+        builder.setIcon(R.drawable.ic_alert_dialog_32dp)
 
         builder.setPositiveButton(resources.getString(R.string.yes)) { dialogInterface, _ ->
             dialogInterface.dismiss()
