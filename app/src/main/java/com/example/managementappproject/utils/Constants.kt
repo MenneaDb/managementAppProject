@@ -27,6 +27,8 @@ object Constants {
     const val TASK_LIST_ITEM_POSITION: String = "task_list_item_position"
     const val CARD_LIST_ITEM_POSITION: String = "card_list_item_position"
     const val BOARD_MEMBERS_LIST: String = "board_members_list"
+    const val SELECT: String = "Select"
+    const val UN_SELECT: String = "UnSelect"
 
     /** We need to reuse these methods inside different activities(MyProfile and CreateBoard), that is why pass activity
         as parameter in order to know from which activity we should do that */

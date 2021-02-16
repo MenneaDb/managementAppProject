@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.example.managementappproject.R
 import com.example.managementappproject.dialogs.LabelColorListDialog
+import com.example.managementappproject.dialogs.MemberListDialog
 import com.example.managementappproject.firebase.FireStoreClass
 import com.example.managementappproject.models.Board
 import com.example.managementappproject.models.Card
@@ -50,6 +51,10 @@ class CardDetailsActivity : BaseActivity() {
         // trigger the selection of a color to label color
         tv_select_label_color.setOnClickListener{
             labelColorsListDialog()
+        }
+
+        tv_select_members.setOnClickListener {
+            membersListDialog() // we call the method we just prepared
         }
 
         // in order to trigger the update the details of the card
@@ -117,6 +122,38 @@ class CardDetailsActivity : BaseActivity() {
         if (intent.hasExtra(Constants.BOARD_MEMBERS_LIST)){ // catch the membersList
             mMembersDetailList = intent.getParcelableArrayListExtra(Constants.BOARD_MEMBERS_LIST)!!
         }
+    }
+
+    // method to do something when the user click on the select members view
+    private fun membersListDialog() {
+        // we need to know which members are assigned to us the card
+        val cardAssignedMembersList = mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo
+        // we check if there are already members assigned to this class
+        if (cardAssignedMembersList.size > 0) {
+            for (i in mMembersDetailList.indices) { // go through all the indices we have
+                for (j in cardAssignedMembersList) { // go through all the members we have
+                    if (mMembersDetailList[i].id == j) {
+                        mMembersDetailList[i].selected = true
+                    }
+                }
+            }
+        } else {
+            for (i in mMembersDetailList.indices){ // if none is on the list of people assignedTo the card, none is selected
+                mMembersDetailList[i].selected = false
+            }
+        }
+
+        // actually display the dialog we need to create an Object
+        val listDialog = object: MemberListDialog(
+                this,
+                mMembersDetailList,
+                resources.getString(R.string.str_select_member)
+        ){
+            override fun onItemSelected(user: User, action: String) {
+                // TODO implement selected members functionality
+            }
+        }
+        listDialog.show()
     }
 
     // method to update cardDetails, only text for now

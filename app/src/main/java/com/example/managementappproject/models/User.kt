@@ -11,7 +11,8 @@ data class User (
     val image: String = "",
     val mobile: Long = 0,
     // we create a token to know the that is specific for each user
-    val fcmToken: String = ""
+    val fcmToken: String = "",
+    var selected: Boolean = false // the user can be selected or unselected inside of a card
 ): Parcelable {
     // I need to pass !! to the functions because Parcelable is nullable.
     constructor(parcel: Parcel) : this(
@@ -20,8 +21,7 @@ data class User (
             parcel.readString()!!,
             parcel.readString()!!,
             parcel.readLong(),
-            parcel.readString()!!) {
-    }
+            parcel.readString()!!)
 
     // when we write to parcel we do it with the attributes I set for this class.
     override fun writeToParcel(parcel: Parcel, flags: Int) {
