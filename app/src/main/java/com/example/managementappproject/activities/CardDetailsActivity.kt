@@ -14,6 +14,7 @@ import com.example.managementappproject.firebase.FireStoreClass
 import com.example.managementappproject.models.Board
 import com.example.managementappproject.models.Card
 import com.example.managementappproject.models.Task
+import com.example.managementappproject.models.User
 import com.example.managementappproject.utils.Constants
 import kotlinx.android.synthetic.main.activity_card_details.*
 import kotlinx.android.synthetic.main.activity_my_profile.*
@@ -25,6 +26,8 @@ class CardDetailsActivity : BaseActivity() {
     private var mTaskListPosition: Int = -1 // we set both to -1 we know we don't have the real values
     private var mCardPosition: Int = -1 // ( if it's real, it's always positive)
     private var mSelectedColor: String = ""
+    // we need to catch and store the membersList from the intent
+    private lateinit var mMembersDetailList: ArrayList<User>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,6 +113,9 @@ class CardDetailsActivity : BaseActivity() {
         }
         if (intent.hasExtra(Constants.BOARD_DETAIL)){ // if the intent has a board we store to the global var we created for it
             mBoardDetails = intent.getParcelableExtra(Constants.BOARD_DETAIL)!!
+        }
+        if (intent.hasExtra(Constants.BOARD_MEMBERS_LIST)){ // catch the membersList
+            mMembersDetailList = intent.getParcelableArrayListExtra(Constants.BOARD_MEMBERS_LIST)!!
         }
     }
 

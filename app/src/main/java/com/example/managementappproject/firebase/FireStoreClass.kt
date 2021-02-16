@@ -215,7 +215,7 @@ class FireStoreClass {
     }
 
     // get the membersList from the collection (assigned members)
-    fun getAssignedMembersListDetails(activity: MembersActivity, assignedTo: ArrayList<String>){
+    fun getAssignedMembersListDetails(activity: Activity, assignedTo: ArrayList<String>){
         // we want to get the users that have the Ids inside the assignedTo of an existing task
         mFireStore.collection(Constants.USERS)
             .whereIn(Constants.ID, assignedTo)
@@ -231,11 +231,18 @@ class FireStoreClass {
                     usersList.add(user)
                 }
                 // we pass the list with the assignedTo users to the layout where I want to display the membersList
-                activity.setUpMembersList(usersList)
-            }.addOnFailureListener{
-                e ->
-                activity.hideProgressDialog()
-                Log.e(activity.javaClass.simpleName, "Error while creating a member's list", e)
+                if (activity is MembersActivity){
+                    activity.setUpMembersList(usersList)
+                } else if (activity is TaskListActivity){
+                    activity.boardMembersDetailsList(usersList)
+                }
+            }.addOnFailureListener{  e ->
+                    if (activity is MembersActivity){
+                        activity.hideProgressDialog()
+                    } else if (activity is TaskListActivity){
+                        activity.hideProgressDialog()
+                    }
+                    Log.e(activity.javaClass.simpleName, "Error while creating a member's list", e)
             }
     }
 

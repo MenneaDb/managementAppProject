@@ -14,6 +14,7 @@ import com.example.managementappproject.firebase.FireStoreClass
 import com.example.managementappproject.models.Board
 import com.example.managementappproject.models.Card
 import com.example.managementappproject.models.Task
+import com.example.managementappproject.models.User
 import com.example.managementappproject.utils.Constants
 import com.google.firebase.firestore.remote.FirestoreChannel
 import kotlinx.android.synthetic.main.activity_task_list.*
@@ -25,6 +26,8 @@ class TaskListActivity : BaseActivity() {
     private lateinit var mBoardDetails: Board
     // we need to use the mBoardDocumentId out of the onCreate, we make it global and use it when we call the onActivityResultFunction
     private lateinit var mBoardDocumentId: String
+    // we need it to implement the memberList to select them on a specific card of taskList
+    private lateinit var mAssignedMemberDetailList: ArrayList<User>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +73,7 @@ class TaskListActivity : BaseActivity() {
         intent.putExtra(Constants.BOARD_DETAIL, mBoardDetails) // we send the board
         intent.putExtra(Constants.TASK_LIST_ITEM_POSITION, taskListPosition)
         intent.putExtra(Constants.CARD_LIST_ITEM_POSITION, cardPosition)
+        intent.putExtra(Constants.BOARD_MEMBERS_LIST, mAssignedMemberDetailList) // pass the member list to the CardDetailsActivity
         startActivityForResult(intent, CARD_DETAILS_REQUEST_CODE) // we want to get these info at the CardDetailsActivity
     }
 
@@ -125,6 +129,10 @@ class TaskListActivity : BaseActivity() {
         // create adapter and assign it to rv_task_list
         val adapter = TaskListItemsAdapter(this@TaskListActivity, mBoardDetails.taskList)
         rv_task_list.adapter = adapter
+
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FireStoreClass().getAssignedMembersListDetails(this@TaskListActivity, mBoardDetails.assignedTo) // the people who are assigned to are members of the board
+        // pass the info from the TaskListActivity over to the CardDetailsListActivity(we need to know the members as well there)
 
     }
 
@@ -202,6 +210,12 @@ class TaskListActivity : BaseActivity() {
         //show progress and update the taskList, by getting the board(parent of task) we get the task(parent of the card) and the card(all updated together not individually)
         showProgressDialog(resources.getString(R.string.please_wait))
         FireStoreClass().addUpdateTaskList(this@TaskListActivity, mBoardDetails)
+    }
+
+    // method to get the board member details
+    fun boardMembersDetailsList(list: ArrayList<User>) {
+        mAssignedMemberDetailList = list // we assign it to the list that is pass to us
+        hideProgressDialog() // we show it before we called the method and we need to hide it
     }
 
     // we use it when we startActivity for Result when the user press to Member and go back in the taskList menu

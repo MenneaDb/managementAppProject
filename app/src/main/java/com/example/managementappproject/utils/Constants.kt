@@ -26,6 +26,7 @@ object Constants {
     // when we send an intent with extra info it is always good to have key to request them
     const val TASK_LIST_ITEM_POSITION: String = "task_list_item_position"
     const val CARD_LIST_ITEM_POSITION: String = "card_list_item_position"
+    const val BOARD_MEMBERS_LIST: String = "board_members_list"
 
     /** We need to reuse these methods inside different activities(MyProfile and CreateBoard), that is why pass activity
         as parameter in order to know from which activity we should do that */
