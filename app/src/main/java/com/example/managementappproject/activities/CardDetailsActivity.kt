@@ -159,20 +159,20 @@ class CardDetailsActivity : BaseActivity() {
                     if (!mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo.contains(user.id)){
                         // if it doesn't contain the user we want to assign him/het to the assignedTo list
                         mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo.add(user.id)
-                    } else { // otherwise
-                        mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo.remove(user.id)
+                    }
+                } else { // otherwise
+                    mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo.remove(user.id)
 
-                        // check through the member and find the one we remove and set it to false
-                        for (i in mMembersDetailList.indices){
-                            if (mMembersDetailList[i].id == user.id){
-                                // set to false because if we deleted him/her from the list he/she's not selected anymore
-                                mMembersDetailList[i].selected = false
-                            }
+                    // check through the member and find the one we remove and set it to false
+                    for (i in mMembersDetailList.indices){
+                        if (mMembersDetailList[i].id == user.id){
+                            // set to false because if we deleted him/her from the list he/she's not selected anymore
+                            mMembersDetailList[i].selected = false
                         }
                     }
-
-                    setUpSelectedMembersList()
                 }
+
+                setUpSelectedMembersList() // refresh and update - selected and unselected members
             }
         }
 
@@ -188,6 +188,9 @@ class CardDetailsActivity : BaseActivity() {
             mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo,
             mSelectedColor // store the color in the database as well
         )
+
+        // update the taskList
+        val taskList: ArrayList<Task> = mBoardDetails.taskList
 
         mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition] = card // assign the details related to the specific card to our object
         // refresh data from database
