@@ -2,12 +2,14 @@ package com.example.managementappproject.activities
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.DatePicker
 import android.widget.GridLayout
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
@@ -20,6 +22,9 @@ import com.example.managementappproject.models.*
 import com.example.managementappproject.utils.Constants
 import kotlinx.android.synthetic.main.activity_card_details.*
 import kotlinx.android.synthetic.main.activity_my_profile.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CardDetailsActivity : BaseActivity() {
 
@@ -30,6 +35,8 @@ class CardDetailsActivity : BaseActivity() {
     private var mSelectedColor: String = ""
     // we need to catch and store the membersList from the intent
     private lateinit var mMembersDetailList: ArrayList<User>
+    // new var to store the dueDate
+    private var mSelectedDueDateMilliSeconds: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -330,5 +337,34 @@ class CardDetailsActivity : BaseActivity() {
             tv_select_members.visibility = View.VISIBLE
             rv_selected_members_list.visibility = View.GONE
         }
+    }
+
+    // method that allow us to show the date picker
+    private fun showDataPicker(){
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR) // returns the value of the given calendar
+        val month = c.get(Calendar.MONTH) // get the Month
+        val day = c.get(Calendar.DAY_OF_MONTH) // get the Day
+        val dpd = DatePickerDialog(this, { view, year, monthOfYear, dayOfMonth ->
+
+            val sDayOfMonth = if (dayOfMonth < 10) "0$dayOfMonth" else "$dayOfMonth" // 01, 02 ... 09, 10, 11..
+
+            val sMonthOfYear = if ((monthOfYear + 1) < 10) "0${monthOfYear + 1}" else "${monthOfYear + 1}" // same here 01, 02
+
+            val selectedDate = "$sDayOfMonth/$sMonthOfYear/$year" // get what we have prepared
+
+            tv_select_due_date.text = selectedDate
+
+            val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
+
+            val theDate = sdf.parse(selectedDate)
+
+            mSelectedDueDateMilliSeconds = theDate!!.time
+        },
+        year,
+        month,
+        day
+        )
+        dpd.show()
     }
 }

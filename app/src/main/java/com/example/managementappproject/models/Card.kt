@@ -8,14 +8,16 @@ data class Card (
         val name: String = "",
         val createdBy: String = "",
         val assignedTo: ArrayList<String> = ArrayList(), // Array because could be assigned from different people
-        val labelColor: String = "" // to add the color selected from the user to a Card
+        val labelColor: String = "", // to add the color selected from the user to a Card
+        val dueDate: Long = 0 // we add this attribute to add as feature the dueDate for a Card
 
         ): Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString()!!,
             parcel.readString()!!,
             parcel.createStringArrayList()!!,
-            parcel.readString()!!
+            parcel.readString()!!,
+            parcel.readLong()!!
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) = with(parcel) {
@@ -23,6 +25,7 @@ data class Card (
         writeString(createdBy)
         writeStringList(assignedTo)
         writeString(labelColor)
+        writeLong(dueDate)
     }
 
     override fun describeContents() = 0
