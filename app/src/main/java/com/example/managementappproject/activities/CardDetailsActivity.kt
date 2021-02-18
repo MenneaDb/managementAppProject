@@ -191,6 +191,7 @@ class CardDetailsActivity : BaseActivity() {
 
         // update the taskList
         val taskList: ArrayList<Task> = mBoardDetails.taskList
+        taskList.removeAt(taskList.size - 1) // remove the add Card btn from the list because we don't want this part to be added to the database(it was added before through methods we used).
 
         mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition] = card // assign the details related to the specific card to our object
         // refresh data from database
@@ -313,7 +314,7 @@ class CardDetailsActivity : BaseActivity() {
                     this@CardDetailsActivity, 6
             )
             // create an adapter object that can be assigned to this recyclerView - context and the list we need to show
-            val adapter = CardMemberListItemsAdapter(this@CardDetailsActivity, selectedMembersList)
+            val adapter = CardMemberListItemsAdapter(this@CardDetailsActivity, selectedMembersList, true) // we assigned the var assignedMember as condition(true) to let the user see the members assigned to the card
             // we set the adapter we just prepared as the adapter
             rv_selected_members_list.adapter = adapter
             // we add an onClickListener to the adapter

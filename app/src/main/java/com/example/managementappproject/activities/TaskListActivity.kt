@@ -26,8 +26,8 @@ class TaskListActivity : BaseActivity() {
     private lateinit var mBoardDetails: Board
     // we need to use the mBoardDocumentId out of the onCreate, we make it global and use it when we call the onActivityResultFunction
     private lateinit var mBoardDocumentId: String
-    // we need it to implement the memberList to select them on a specific card of taskList
-    private lateinit var mAssignedMemberDetailList: ArrayList<User>
+    // we need it to implement the memberList to select them on a specific card of taskList -  we change it to public var to be accessed from multiple spots, not only here
+    lateinit var mAssignedMemberDetailList: ArrayList<User>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,18 +117,6 @@ class TaskListActivity : BaseActivity() {
         mBoardDetails = board
         hideProgressDialog()
         setUpActionBar() // we don't have to specify the title anymore, we get it directly from the board
-        // here we setup the actionbar but we also need to load all of the tasks
-        val addTaskList = Task(resources.getString(R.string.add_list))
-        // now we can add this taskLst to our taskList
-        mBoardDetails.taskList.add(addTaskList)
-
-        rv_task_list.layoutManager = LinearLayoutManager(this@TaskListActivity, LinearLayoutManager.HORIZONTAL, false)
-
-        rv_task_list.setHasFixedSize(true)
-
-        // create adapter and assign it to rv_task_list
-        val adapter = TaskListItemsAdapter(this@TaskListActivity, mBoardDetails.taskList)
-        rv_task_list.adapter = adapter
 
         showProgressDialog(resources.getString(R.string.please_wait))
         FireStoreClass().getAssignedMembersListDetails(this@TaskListActivity, mBoardDetails.assignedTo) // the people who are assigned to are members of the board
@@ -216,6 +204,19 @@ class TaskListActivity : BaseActivity() {
     fun boardMembersDetailsList(list: ArrayList<User>) {
         mAssignedMemberDetailList = list // we assign it to the list that is pass to us
         hideProgressDialog() // we show it before we called the method and we need to hide it
+
+        // here we setup the actionbar but we also need to load all of the tasks
+        val addTaskList = Task(resources.getString(R.string.add_list))
+        // now we can add this taskLst to our taskList
+        mBoardDetails.taskList.add(addTaskList)
+
+        rv_task_list.layoutManager = LinearLayoutManager(this@TaskListActivity, LinearLayoutManager.HORIZONTAL, false)
+
+        rv_task_list.setHasFixedSize(true)
+
+        // create adapter and assign it to rv_task_list
+        val adapter = TaskListItemsAdapter(this@TaskListActivity, mBoardDetails.taskList)
+        rv_task_list.adapter = adapter
     }
 
     // we use it when we startActivity for Result when the user press to Member and go back in the taskList menu

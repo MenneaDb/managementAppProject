@@ -13,7 +13,8 @@ import kotlinx.android.synthetic.main.item_card_selected_member.view.*
 // open class that requires context and list
 open class CardMemberListItemsAdapter
     (private val context: Context,
-     private val list:ArrayList<SelectedMembers>)
+     private val list:ArrayList<SelectedMembers>,
+     private val assignMembers: Boolean) // we add this info about the members
     : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 {
     private var onClickListener: OnClickListener? = null
@@ -28,7 +29,7 @@ open class CardMemberListItemsAdapter
 
         if (holder is MyViewHolder) {
             // if we don't have people on the list we only want the + button to be visible in the RV
-            if (position == list.size - 1){
+            if (position == list.size - 1 && assignMembers){ // check if the user is an assigned member
                 holder.itemView.iv_add_member.visibility = View.VISIBLE
                 holder.itemView.iv_selected_member_image.visibility = View.GONE
             } else {
