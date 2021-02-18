@@ -67,6 +67,22 @@ class CardDetailsActivity : BaseActivity() {
 
         setUpSelectedMembersList() // we call it here because it should be visible at the start
 
+        // display the dueDate if it was already set before(set it in database)
+        mSelectedDueDateMilliSeconds = mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].dueDate
+        // if this condition is true, we know we had a value in the database ( 0 is set as default value, if it's different means that there was a valid value)
+        if (mSelectedDueDateMilliSeconds > 0){
+            // display this existing value as text - date format object to start
+            val simpleDateFormat = SimpleDateFormat("dd//MM/yyyy", Locale.ENGLISH)
+            // use this simple date format in order to format the mSelectedDueDateMilliSeconds to a readable format(that fits the pattern we set) by using a Date() object
+            val selectedDate = simpleDateFormat.format(Date(mSelectedDueDateMilliSeconds))
+            // use the date we get as readable format to show it in our textView
+            tv_select_due_date.text = selectedDate // assign the date to the textView and show it to the user if we have stored it before in the database
+        }
+        // when the user click this txtView, we want the DatePickerDialog to appear
+        tv_select_due_date.setOnClickListener{
+            showDataPicker()
+        }
+
         // in order to trigger the update the details of the card
         btn_update_card_details.setOnClickListener {
             if (et_name_card_details.text.toString().isNotEmpty()) {
@@ -113,7 +129,6 @@ class CardDetailsActivity : BaseActivity() {
                 return true
             }
         }
-
         return super.onOptionsItemSelected(item)
     }
 
@@ -178,11 +193,9 @@ class CardDetailsActivity : BaseActivity() {
                         }
                     }
                 }
-
                 setUpSelectedMembersList() // refresh and update - selected and unselected members
             }
         }
-
         listDialog.show()
     }
 
@@ -193,7 +206,8 @@ class CardDetailsActivity : BaseActivity() {
             et_name_card_details.text.toString(),
             mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].createdBy,
             mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo,
-            mSelectedColor // store the color in the database as well
+            mSelectedColor, // store the color in the database as well
+            mSelectedDueDateMilliSeconds // now the card will get this additional info
         )
 
         // update the taskList
@@ -339,7 +353,7 @@ class CardDetailsActivity : BaseActivity() {
         }
     }
 
-    // method that allow us to show the date picker
+    // method that allow us to show the date picker - when the user click the related textView, this method will be called.
     private fun showDataPicker(){
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR) // returns the value of the given calendar
@@ -352,19 +366,19 @@ class CardDetailsActivity : BaseActivity() {
             val sMonthOfYear = if ((monthOfYear + 1) < 10) "0${monthOfYear + 1}" else "${monthOfYear + 1}" // same here 01, 02
 
             val selectedDate = "$sDayOfMonth/$sMonthOfYear/$year" // get what we have prepared
-
+            // populate this view when we set the date
             tv_select_due_date.text = selectedDate
-
+            // we need to format it
             val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
-
+            // we parse a string into a date
             val theDate = sdf.parse(selectedDate)
-
+            // we store it inside the var we created ( time is returning a Long value as the var)
             mSelectedDueDateMilliSeconds = theDate!!.time
         },
         year,
         month,
         day
         )
-        dpd.show()
+        dpd.show() // show the DatePickerDialog that contains all the logic to get the dueDate
     }
 }
