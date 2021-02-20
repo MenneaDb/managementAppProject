@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.managementappproject.R
@@ -16,7 +18,13 @@ import com.example.managementappproject.models.Task
 import kotlinx.android.synthetic.main.item_task.view.*
 
 /** Now that we set the RecyclerView we can also create an adapter for it */
-open class TaskListItemsAdapter(private val context: Context, private var list: ArrayList<Task>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+open class TaskListItemsAdapter(
+        private val context: Context,
+        private var list: ArrayList<Task>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    // global var to hold the draggedPositions
+    private var mPositionDraggedFrom = -1 // default values
+    private var mPositionDraggedTo = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         // we want to inflate our View from here
@@ -148,6 +156,34 @@ open class TaskListItemsAdapter(private val context: Context, private var list: 
                 }
 
             )
+
+            // start implementation to let the user drag up and down a card inside the cardList
+            val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL) // up or down
+            // we add the decoration that we just created to the rv_card_list
+            holder.itemView.rv_card_list.addItemDecoration(dividerItemDecoration)
+
+            // we need an ItemTouchHelper -> whenever we want to use drag and drop features, this method will make it all easier
+            val helper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0){ // header of the simple callback
+                override fun onMove(recyclerView: RecyclerView, dragged: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                    // implement functionality that should happen once we move
+                    val draggedPosition = dragged.adapterPosition // position of item dragged (where it comes from)
+                    val targetPosition =  target.adapterPosition // position of target (where does it go)
+
+                    if (mPositionDraggedFrom == -1){
+                        // we set this position of the item dragged(default) as the mPositionDraggedFrom
+                        mPositionDraggedFrom == draggedPosition
+                    }
+                    // set also the mPositionDraggedTo as the default position
+                    mPositionDraggedTo = targetPosition
+                    // we need to call the class Collection
+                    return true // TODO implement the functionality
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    TODO("Not yet implemented")
+                }
+
+            })
         }
     }
 
