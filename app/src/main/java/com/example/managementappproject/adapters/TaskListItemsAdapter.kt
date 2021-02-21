@@ -16,6 +16,8 @@ import com.example.managementappproject.R
 import com.example.managementappproject.activities.TaskListActivity
 import com.example.managementappproject.models.Task
 import kotlinx.android.synthetic.main.item_task.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 /** Now that we set the RecyclerView we can also create an adapter for it */
 open class TaskListItemsAdapter(
@@ -36,7 +38,7 @@ open class TaskListItemsAdapter(
                 (parent.width * 0.7).toInt(), LinearLayout.LayoutParams.WRAP_CONTENT
         )
         // now we can set others attributes for out layout - layoutParams is a var that we can use to add as much as params we need (15 to left, 40 to right)
-        layoutParams.setMargins((15.toDP().toPx()), 0, (40.toDP()).toPx(), 0)
+        layoutParams.setMargins((15.toDP()).toPx(), 0, (40.toDP()).toPx(), 0)
         // we set these params for our view
         view.layoutParams = layoutParams
         // now we can return MyViewHolder and pass to it the view that we prepared
@@ -75,16 +77,17 @@ open class TaskListItemsAdapter(
                 // create entry in DB and display the taskList
                 val listName = holder.itemView.et_task_list_name.text.toString() // we get the text that is entered to this view when we press the btn
                 // we need to check if the listName exist to check some conditions
-                if (listName.isNotEmpty()){
-                    if (context is TaskListActivity){ // if this is the case
+                if (listName.isNotEmpty()) {
+                    if (context is TaskListActivity) { // if this is the case
                         context.createTaskList(listName) // context from the taskListActivity and we pass the listName to it and use this method
                     }
-                  }else{ // if it is empty we show a Toast.message to the user if he didn't enter a title
-                      Toast.makeText(context, "Please Enter List Name.", Toast.LENGTH_SHORT).show()
+                } else { // if it is empty we show a Toast.message to the user if he didn't enter a title
+                    Toast.makeText(context, "Please Enter List Name.", Toast.LENGTH_SHORT).show()
                 }
             }
             // editing and deleting lists
             holder.itemView.ib_edit_list_name.setOnClickListener {
+
                 holder.itemView.et_edit_task_list_name.setText(model.title) // we set the text with the title we get from the model
                 holder.itemView.ll_title_view.visibility = View.GONE
                 holder.itemView.cv_edit_task_list_name.visibility = View.VISIBLE
@@ -96,43 +99,44 @@ open class TaskListItemsAdapter(
             }
 
             // we pass a functionality to make something happen
-            holder.itemView.ib_done_edit_list_name.setOnClickListener{
+            holder.itemView.ib_done_edit_list_name.setOnClickListener {
                 // we need the listName and we get it from this itemView
                 val listName = holder.itemView.et_edit_task_list_name.text.toString()
                 // conditions for the case
-                if (listName.isNotEmpty()){
-                    if (context is TaskListActivity){
+                if (listName.isNotEmpty()) {
+                    if (context is TaskListActivity) {
                         context.updateTaskList(position, listName, model) // if the title is not empty we update the taskList
                     } //(position from onBindViewHolder and model based on the position, listName from editText we used here).
-                }else{
+                } else {
                     Toast.makeText(context, "Please Enter a List Name.", Toast.LENGTH_SHORT).show() // otherwise
                 }
             }
             // implementing the code to delete a taskList
-            holder.itemView.ib_delete_list.setOnClickListener{
+            holder.itemView.ib_delete_list.setOnClickListener {
                 alertDialogForDeleteList(position, model.title) // inside the method we make the actual deleting
             }
             // implementing the tv_add_card functionality to show the cv_add_card View and add an element to the list
-            holder.itemView.tv_add_card.setOnClickListener{
+            holder.itemView.tv_add_card.setOnClickListener {
                 holder.itemView.tv_add_card.visibility = View.GONE
                 holder.itemView.cv_add_card.visibility = View.VISIBLE
-            }
+
             // implement the functionality to cancel the process of adding a new element
-            holder.itemView.ib_close_card_name.setOnClickListener{
+            holder.itemView.ib_close_card_name.setOnClickListener {
                 holder.itemView.tv_add_card.visibility = View.VISIBLE
                 holder.itemView.cv_add_card.visibility = View.GONE
             }
             // implement the functionality where the actual creation of the card happens
-            holder.itemView.ib_done_card_name.setOnClickListener{
+            holder.itemView.ib_done_card_name.setOnClickListener {
                 val cardName = holder.itemView.et_card_name.text.toString()
-                if (cardName.isNotEmpty()){
-                    if (context is TaskListActivity){
+                if (cardName.isNotEmpty()) {
+                    if (context is TaskListActivity) {
                         context.addCardToTaskList(position, cardName)// position from onBindViewHolder, cardName from the TextView et_card_name
                     }
                 } else {
                     Toast.makeText(context, "Please Enter a Card Name", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
 
             holder.itemView.rv_card_list.layoutManager = LinearLayoutManager(context)
             // fix the size
@@ -153,9 +157,7 @@ open class TaskListItemsAdapter(
                             context.cardDetails(position, cardPosition)
                         }
                     }
-                }
-
-            )
+                })
 
             // start implementation to let the user drag up and down a card inside the cardList
             val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL) // up or down
@@ -171,19 +173,35 @@ open class TaskListItemsAdapter(
 
                     if (mPositionDraggedFrom == -1){
                         // we set this position of the item dragged(default) as the mPositionDraggedFrom
-                        mPositionDraggedFrom == draggedPosition
+                        mPositionDraggedFrom = draggedPosition
                     }
                     // set also the mPositionDraggedTo as the default position
                     mPositionDraggedTo = targetPosition
                     // we need to call the class Collection
-                    return true // TODO implement the functionality
+                    Collections.swap(list[position].cards, draggedPosition, targetPosition) //reposition the cards (the position of the Card objects inside the ArrayList)
+                    // notify the adapter that changes were made otherwise visually it will not change anything (drag to target) --> recyclerView will display this accordingly
+                    adapter.notifyItemMoved(draggedPosition, targetPosition)
+                    return false // true if moved, false otherwise
                 }
 
+                // we don't want to throw an error if there's nothing happening in the onSwipe
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    TODO("Not yet implemented")
+                }
+
+                override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+                    super.clearView(recyclerView, viewHolder)
+                    // we need to check if any card moved inside the list
+                    if (mPositionDraggedFrom != -1 && mPositionDraggedTo != -1 && mPositionDraggedFrom != mPositionDraggedTo){
+                        (context as TaskListActivity).updateCardsInTaskList(position, list[position].cards)
+                    }
+                    // we need to reset the default values for the next time the user will drag and change the position of the cards
+                    mPositionDraggedFrom = -1
+                    mPositionDraggedTo = -1
                 }
 
             })
+            // now we can use the helper we have created and add it to the recyclerView to use the drag feature
+            helper.attachToRecyclerView(holder.itemView.rv_card_list)
         }
     }
 

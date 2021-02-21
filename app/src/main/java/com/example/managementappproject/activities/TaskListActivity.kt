@@ -93,8 +93,6 @@ class TaskListActivity : BaseActivity() {
                 intent.putExtra(Constants.BOARD_DETAIL, mBoardDetails) // this only works because mBoardDetails is of type Board that is Parcelable( we are passing a whole object because it's made for a string and we can get extra info from it)
                 startActivityForResult(intent, MEMBERS_REQUEST_CODE) // we need to catch it inside the other activity
                 return true
-
-
             }
         }
         return super.onOptionsItemSelected(item)
@@ -121,7 +119,6 @@ class TaskListActivity : BaseActivity() {
         showProgressDialog(resources.getString(R.string.please_wait))
         FireStoreClass().getAssignedMembersListDetails(this@TaskListActivity, mBoardDetails.assignedTo) // the people who are assigned to are members of the board
         // pass the info from the TaskListActivity over to the CardDetailsListActivity(we need to know the members as well there)
-
     }
 
     // method that add or update a taskList
@@ -219,12 +216,21 @@ class TaskListActivity : BaseActivity() {
         rv_task_list.adapter = adapter
     }
 
+    // method to handel the moving of the cards - we pass the position and the card we want to change if this is method is called
+    fun updateCardsInTaskList(taskListPosition: Int, cards: ArrayList<Card>){
+        //we need to remove the 1st card of the list that is the Add Card view( we don't want to move that)
+        mBoardDetails.taskList.removeAt(mBoardDetails.taskList.size - 1)
+        // set the card with the position inside the task list as the card is passed to the method
+        mBoardDetails.taskList[taskListPosition].cards = cards
+        // we update the database about the new details of the taskList
+         showProgressDialog(resources.getString(R.string.please_wait))
+        FireStoreClass().addUpdateTaskList(this@TaskListActivity, mBoardDetails)
+    }
+
     // we use it when we startActivity for Result when the user press to Member and go back in the taskList menu
     companion object{
         const val MEMBERS_REQUEST_CODE : Int = 13
         // new const for getResult to don't update constantly the board
         const val CARD_DETAILS_REQUEST_CODE: Int = 14
     }
-
-
 }
