@@ -70,4 +70,6 @@
 
     <string name="str_select_member">Select Member</string>
 
+    <string name="default_notification_channel_id">managementappproject_notification_channel_id</string>
+
 </resources>
