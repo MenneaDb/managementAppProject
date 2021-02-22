@@ -29,6 +29,11 @@ object Constants {
     const val BOARD_MEMBERS_LIST: String = "board_members_list"
     const val SELECT: String = "Select"
     const val UN_SELECT: String = "UnSelect"
+    // we need to store the token inside the device
+    const val MANAGE_IT_SHARED_PREFERENCES = "manageIt_preferences"
+    const val FCM_TOKEN = "fcmToken"
+    const val FCM_TOKEN_UPDATED = "fcmTokenUpdated"
+
 
     /** We need to reuse these methods inside different activities(MyProfile and CreateBoard), that is why pass activity
         as parameter in order to know from which activity we should do that */

@@ -129,17 +129,32 @@ class FireStoreClass {
                 }
     }
 
-    // method that will take care of updating the user's profile data
-    fun updateUserProfileData(activity: MyProfileActivity, userHashMap: HashMap<String, Any>){
+    // method that will take care of updating the user's profile data AND NOW WE ALSO NEED IT FOT OTHER ACTIVITIES.
+    fun updateUserProfileData(activity: Activity, userHashMap: HashMap<String, Any>){
         mFireStore.collection(Constants.USERS)
             .document(getCurrentUserId())
             .update(userHashMap)
             .addOnSuccessListener {
                 Log.i(activity.javaClass.simpleName, "Profile Data updated successfully!")
                 Toast.makeText(activity, "Profile updated successfully!", Toast.LENGTH_SHORT).show()
-                activity.profileUpdateSuccess()
-            }.addOnFailureListener{ e->
-                activity.hideProgressDialog()
+                when(activity){
+                    is MainActivity -> {
+                        activity.tokenUpdateSuccess() // TODO
+                    }
+                    is MyProfileActivity -> {
+                        activity.profileUpdateSuccess()
+                    }
+                }
+            }.addOnFailureListener{ e ->
+                    when(activity){
+                        is MainActivity ->{
+                            activity.hideProgressDialog()
+                        }
+                        is MyProfileActivity ->{
+                            activity.hideProgressDialog()
+                        }
+                    }
+
                 Log.e(activity.javaClass.simpleName, "Error while creating a board", e)
             }
 

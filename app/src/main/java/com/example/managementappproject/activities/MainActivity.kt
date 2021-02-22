@@ -1,7 +1,9 @@
 package com.example.managementappproject.activities
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -17,6 +19,7 @@ import com.example.managementappproject.models.User
 import com.example.managementappproject.utils.Constants
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -30,6 +33,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
     // to store the username
     private lateinit var mUserName: String
+    // related to the token for notification purpose
+    private lateinit var mSharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +46,24 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
            When one of the buttons is clicked, the compiler will execute the logic this class*/
         nav_view.setNavigationItemSelectedListener(this)
 
+        // initialize the var related to the token. we pass the constant and the mode we want to use it. shared_preferences should only be available within the app.
+        mSharedPreferences = this.getSharedPreferences(Constants.MANAGE_IT_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+
+        // get the fcm token from the shared preferences
+        val tokenUpdated = mSharedPreferences.getBoolean(Constants.FCM_TOKEN_UPDATED, false) // get the value either the token is updated in the database or not
+
+        if (tokenUpdated){
+            showProgressDialog(resources.getString(R.string.please_wait))
+            FireStoreClass().loadUserData(this@MainActivity, true)
+        } else {
+            // if it's not updated or if don't have it, we want to get one from the instance
+            FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this@MainActivity){
+                instanceIdResult ->
+                updateFCMToken(instanceIdResult.token)
+            }
+        }
+
+
         /** we call this method before the next one because is the one that interact with a method from the FireStore class
            and load the data from the user to this activity. We also want to load the boards, in this case we don't have to
            load the board every time we change activity. */
@@ -51,6 +74,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             intent.putExtra(Constants.NAME, mUserName)
             startActivityForResult(intent, CREATE_BOARD_REQUEST_CODE)
         }
+
     }
 
     /** new method to populate the board - create the Board inside the UI. We will download the list
@@ -124,6 +148,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     fun updateNavigationUserDetails(user: User, readBoardsList: Boolean){
 
+        hideProgressDialog()
         mUserName = user.name
 
      // load image for the user and text for nav_menu
@@ -167,6 +192,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 //1st we want to signOut from firebase
                 FirebaseAuth.getInstance().signOut()
 
+                // we user go out of the app, reset the shared preferences(back to empty)
+                mSharedPreferences.edit().clear().apply()
+
                 val intent = Intent(this@MainActivity, IntroActivity::class.java)
                 // in this way if the intro activity is already inside the stack we don't create a new one and we go back to it
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -179,5 +207,25 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         drawer_layout.closeDrawer(GravityCompat.START)
 
         return true
+    }
+    // this method will be called id we have an updated token that we get once the user is registered
+    fun tokenUpdateSuccess(){
+        hideProgressDialog()
+        // create editor(sharedPreferences) and we assign the shared preferences we prepared and use the edit() method
+        val editor: SharedPreferences.Editor =  mSharedPreferences.edit()
+        // we can use this editor to store info into it
+        editor.putBoolean(Constants.FCM_TOKEN_UPDATED, true)
+        // apply the changes to shared preferences
+        editor.apply()
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FireStoreClass().loadUserData(this@MainActivity, true)
+    }
+
+    // method to update the fcm token inside the database
+    private fun updateFCMToken(token: String){
+        val userHashMap = HashMap<String, Any>()
+        userHashMap[Constants.FCM_TOKEN] = token // set the value of the User params and assign to it the token is passed to this method
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FireStoreClass().updateUserProfileData(this@MainActivity, userHashMap)
     }
 }

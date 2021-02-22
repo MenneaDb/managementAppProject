@@ -48,7 +48,8 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         sendRegistrationToServer(token)
     }
 
-    // if we a new token we need to send it to server
+    /** if we a new token we need to send it to server - whenever you register somewhere and you're logged in, a token is sent
+     *  to your device. we want to use that token with the sending notification functionality */
     private fun sendRegistrationToServer(token: String?) {
         // TODO
     }
