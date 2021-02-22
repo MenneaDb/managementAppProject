@@ -8,8 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="blue_ocean">#0C90F1</color>
+    <color name="colorAccent">#0C90F1</color>
     <color name="blue_ocean_variant">#0591F8</color>
+    <color name="blue_ocean">#0C90F1</color>
 
     <color name="primary_text_color">#363A43</color>
     <color name="secondary_text_color">#7A8089</color>

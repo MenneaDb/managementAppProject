@@ -66,7 +66,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         // display the icon in the notification bar
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.ic_stat_notification)
+            .setSmallIcon(R.drawable.ic_stat_ic_notification)
             .setContentTitle(getString(R.string.app_name_logo))
             .setContentText("Message")
             .setAutoCancel(true) // when user clicks on the notification it will be automatically cancelled
