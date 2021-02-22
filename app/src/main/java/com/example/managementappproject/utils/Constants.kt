@@ -33,7 +33,15 @@ object Constants {
     const val MANAGE_IT_SHARED_PREFERENCES = "manageIt_preferences"
     const val FCM_TOKEN = "fcmToken"
     const val FCM_TOKEN_UPDATED = "fcmTokenUpdated"
-
+    // constants related to the notification
+    const val FCM_BASE_URL: String = "https://fcm.googleapis.com/fcm/send"
+    const val FCM_AUTHORIZATION: String = "authorization"
+    const val FCM_KEY:String = "key"
+    const val FCM_SERVER_KEY: String = "AAAAWD3AIk0:APA91bE1AEegM7MKn-uxRzM6Bd9Tb41vRvPEVTnRapZ1B9Nik3-7oWEUObccFYg1hU9l9b7UDnkDg4UZbjiaXSI_TyQcYBeXFAUGKRsVMS69iPX1oOK7GPEnNqK76-3gGYu3d9Vx_oNu"
+    const val FCM_KEY_TITLE: String = "title"
+    const val FCM_KEY_MESSAGE: String = "message"
+    const val FCM_KEY_DATA: String = "data"
+    const val FCM_KEY_TO: String = "to"
 
     /** We need to reuse these methods inside different activities(MyProfile and CreateBoard), that is why pass activity
         as parameter in order to know from which activity we should do that */
