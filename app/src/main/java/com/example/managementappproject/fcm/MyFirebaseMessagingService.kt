@@ -12,6 +12,9 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.managementappproject.R
 import com.example.managementappproject.activities.MainActivity
+import com.example.managementappproject.activities.SignInActivity
+import com.example.managementappproject.firebase.FireStoreClass
+import com.example.managementappproject.utils.Constants
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -23,20 +26,26 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
     the background automatically generated notifications are displayed. when the user taps on the notification  he returns to the
     app and messages contain both notification and data payloads are treated as notification messages.*/
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        super.onMessageReceived(remoteMessage)
 
         // we can read from a remoteMessage
-        Log.d(TAG, "FROM: ${remoteMessage.from}")
+        Log.d(TAG, "From: ${remoteMessage.from}")
 
         //check if the message is not empty and display a message in case
         remoteMessage.data.isNotEmpty().let{
-            Log.d(TAG, "Message Data Payload: ${remoteMessage.data}")
+            Log.i(TAG, "Message Data Payload: " + remoteMessage.data)
+
+            // if the message is not empty we want to do more then Log it, prepare the core of the title & message of the notification
+            val title = remoteMessage.data[Constants.FCM_KEY_TITLE]!!
+            val message = remoteMessage.data[Constants.FCM_KEY_MESSAGE]!!
+            // we send a notification to a user with a title and a message
+            sendNotifications(title, message)
         }
 
         // check if the message contains a notification
         remoteMessage.notification?.let {
             Log.d(TAG, "Message Notification Body: ${it.body}")
         }
+
     }
 
     // if the program get problems with the old token, whit this method we will create a new one
@@ -54,10 +63,22 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         // TODO
     }
 
-    // we create this method to send notifications
-    private fun sendNotifications(messageBody: String) {
-        val intent = Intent(this@MyFirebaseMessagingService, MainActivity::class.java) // when the user clicks on the notifications should be sent to the MainActivity
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) // make sure that specific activity is set to a specific position inside of the stack(if we have 2 activities, with this intent we set the activity passed on top)
+    // we create this method to send notifications to the user
+    private fun sendNotifications(title: String, message: String) {
+        // we need to make sure before the Intent(click from the user on the notification) that a User is logged in to send him directly to the Main Activity, if not we send him to the SignInActivity
+        val intent =  if (FireStoreClass().getCurrentUserId().isNotEmpty()){
+            Intent(this@MyFirebaseMessagingService, MainActivity::class.java)
+        } else {
+            Intent(this@MyFirebaseMessagingService, SignInActivity::class.java)
+        }
+        /** before we launch the app we want to make sure that the Flags are correct, we gave different option to it, in this
+            way we can avoid the overlapping of activities(not too many of the same activity open(ex if the user click back btn
+            the app works because there's only one activity of that type open)
+            Make sure that specific activity is set to a specific position inside of the stack(if we have 2 activities, with this
+            intent we set the activity passed on top)*/
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or
+                Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                Intent.FLAG_ACTIVITY_CLEAR_TOP)
         // the user is in another app, we can't open an intent from the other app to our --> we need a pending intent
         val pendingIntent = PendingIntent.getActivity(this@MyFirebaseMessagingService, 0, intent, PendingIntent.FLAG_ONE_SHOT)
         // we need to create a channel id
@@ -67,8 +88,8 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         // display the icon in the notification bar
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.ic_stat_ic_notification)
-            .setContentTitle(getString(R.string.app_name_logo))
-            .setContentText("Message")
+            .setContentTitle(title) // now we can use the title and the message that are passed to the function
+            .setContentText(message) // we get it from the remoteMessage once it's received(when the phone get the message from the firebase server it will give us all the info we sent in the 1st place from the MembersActivity(doInBackground())
             .setAutoCancel(true) // when user clicks on the notification it will be automatically cancelled
             .setSound(defaultSoundUri)
             .setContentIntent(pendingIntent) // when the user clicks on it then it should open up the main activity(pendingIntent set before)
