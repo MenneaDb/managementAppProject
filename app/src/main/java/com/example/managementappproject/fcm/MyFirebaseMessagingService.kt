@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
@@ -60,7 +61,11 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
     /** if we a new token we need to send it to server - whenever you register somewhere and you're logged in, a token is sent
      *  to your device. we want to use that token with the sending notification functionality */
     private fun sendRegistrationToServer(token: String?) {
-        // TODO
+        // here we have saved the token in Shared preferences
+        val sharedPreferences = this.getSharedPreferences(Constants.MANAGE_IT_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.putString(Constants.FCM_TOKEN, token)
+        editor.apply()
     }
 
     // we create this method to send notifications to the user
